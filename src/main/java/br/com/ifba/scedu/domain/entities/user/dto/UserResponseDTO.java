@@ -1,4 +1,4 @@
-package br.com.ifba.scedu.domain.entities.usuario.dto;
+package br.com.ifba.scedu.domain.entities.user.dto;
 
 import lombok.*;
 

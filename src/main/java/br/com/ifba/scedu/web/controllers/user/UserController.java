@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ifba.scedu.domain.entities.usuario.dto.UserRequestDTO;
-import br.com.ifba.scedu.domain.entities.usuario.dto.UserResponseDTO;
-import br.com.ifba.scedu.domain.entities.usuario.model.User;
-import br.com.ifba.scedu.domain.entities.usuario.services.UserService;
+import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
+import br.com.ifba.scedu.domain.entities.user.dto.UserResponseDTO;
+import br.com.ifba.scedu.domain.entities.user.model.User;
+import br.com.ifba.scedu.domain.entities.user.services.UserService;
 import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /*
@@ -26,7 +27,7 @@ import lombok.RequiredArgsConstructor;
     Criar CRUD (findAll, findById, save, update, delete) // OK
     Adicionar DTOs // OK
     Adicionar ObjectMapperUtil (Mapeamento de classes) // OK
-    Adicionar anotações de transações e validação de campos
+    Adicionar anotações de transações e validação de campos // OK
     Criar exceptions personalizadas
     Implementar segurança com Spring Security
 */ 
@@ -56,7 +57,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> save(@RequestBody UserRequestDTO data) {
+    public ResponseEntity<UserResponseDTO> save(@RequestBody @Valid UserRequestDTO data) {
         User createdUser = userService.save(data);
         UserResponseDTO responseDTO = objectMapperUtil.map(createdUser, UserResponseDTO.class);
         
@@ -64,7 +65,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody UserRequestDTO data) {
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody @Valid UserRequestDTO data) {
         User updatedUser = userService.update(id, data);
         UserResponseDTO responseDTO = objectMapperUtil.map(updatedUser, UserResponseDTO.class);
 

@@ -1,13 +1,14 @@
-package br.com.ifba.scedu.domain.entities.usuario.services;
+package br.com.ifba.scedu.domain.entities.user.services;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import br.com.ifba.scedu.domain.entities.usuario.dto.UserRequestDTO;
-import br.com.ifba.scedu.domain.entities.usuario.model.User;
-import br.com.ifba.scedu.domain.entities.usuario.repositories.UserRepository;
+import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
+import br.com.ifba.scedu.domain.entities.user.model.User;
+import br.com.ifba.scedu.domain.entities.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,6 +24,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    @Transactional
     public User save(UserRequestDTO data) {
         if(userRepository.existsByEmail(data.getEmail()))
             throw new IllegalArgumentException("Email already exists.");

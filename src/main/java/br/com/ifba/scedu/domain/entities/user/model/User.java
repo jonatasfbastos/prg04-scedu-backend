@@ -1,8 +1,8 @@
-package br.com.ifba.scedu.domain.entities.usuario.model;
+package br.com.ifba.scedu.domain.entities.user.model;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import br.com.ifba.scedu.domain.entities.usuario.dto.UserRequestDTO;
+import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
