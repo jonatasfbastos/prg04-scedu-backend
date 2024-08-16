@@ -7,5 +7,5 @@ import lombok.*;
 @Getter
 @Setter
 public class UserResponseDTO {
-    private String login;
+    private String name;
 }

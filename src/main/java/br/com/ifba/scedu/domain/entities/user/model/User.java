@@ -26,8 +26,8 @@ public class User {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "login", nullable = false)
-    private String login;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -36,7 +36,7 @@ public class User {
     private String password;
 
     public User(UserRequestDTO data) {
-        this.login = data.getLogin();
+        this.name = data.getName();
         this.email = data.getEmail();
         this.password = data.getPassword();
     }

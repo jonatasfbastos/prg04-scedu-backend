@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
     Adicionar DTOs // OK
     Adicionar ObjectMapperUtil (Mapeamento de classes) // OK
     Adicionar anotações de transações e validação de campos // OK
+    Modificar atributos da entidade e nos DTOs (+nome, -login) // OK
     Criar exceptions personalizadas
     Implementar segurança com Spring Security
 */ 

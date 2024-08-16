@@ -10,9 +10,9 @@ import lombok.*;
 @Getter
 @Setter
 public class UserRequestDTO {
-    @NotNull(message = "Campo 'login' não pode ser nulo!")
-    @NotBlank(message = "Campo 'login' não pode estar vazio!")
-    private String login;
+    @NotNull(message = "Campo 'nome' não pode ser nulo!")
+    @NotBlank(message = "Campo 'nome' não pode estar vazio!")
+    private String name;
 
     @NotNull(message = "Campo 'email' não pode ser nulo!")
     @Email(message = "E-mail inválido!")
