@@ -3,6 +3,7 @@ package br.com.ifba.scedu.domain.entities.user.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,22 +29,31 @@ public class UserService {
     public User save(UserRequestDTO data) {
         if(userRepository.existsByEmail(data.getEmail()))
             throw new IllegalArgumentException("Email already exists.");
-        if(userRepository.existsByLogin(data.getLogin()))
-            throw new IllegalArgumentException("Login already exists.");
+        if(userRepository.existsByName(data.getName()))
+            throw new IllegalArgumentException("Name already exists.");
 
             User newUser = User.fromDTOWithEncryptedPassword(data);
 
         return userRepository.save(newUser);
     }
 
+    @Transactional
     public User update(Long id, UserRequestDTO data) {
-        return userRepository.findById(id).map(user -> {
-            user.setLogin(data.getLogin());
-            user.setEmail(data.getEmail());
-            user.setPassword(data.getPassword());
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
-            return userRepository.save(user);
-        }).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        if(userRepository.existsByEmail(data.getEmail()) && !existingUser.getEmail().equals(data.getEmail()))
+            throw new IllegalArgumentException("Email already exists.");
+        else if(userRepository.existsByName(data.getName()) && !existingUser.getName().equals(data.getName()))
+            throw new IllegalArgumentException("Name already exists.");
+
+        existingUser.setName(data.getName());
+        existingUser.setEmail(data.getEmail());
+
+        if (data.getPassword() != null && !data.getPassword().isEmpty())
+            existingUser.setPassword(BCrypt.hashpw(data.getPassword(), BCrypt.gensalt()));
+
+        return userRepository.save(existingUser);
     }
 
     public void delete(Long id) {
