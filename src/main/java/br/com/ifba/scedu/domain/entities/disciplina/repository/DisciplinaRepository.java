@@ -7,4 +7,5 @@ import br.com.ifba.scedu.domain.entities.disciplina.model.Disciplina;
 
 @Repository
 public interface DisciplinaRepository extends JpaRepository<Disciplina, Long> {
+
 }
