@@ -1,7 +1,5 @@
 package br.com.ifba.scedu.web.controllers.user;
 
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserResponseDTO;
+import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserNotFoundByIdException;
 import br.com.ifba.scedu.domain.entities.user.model.User;
-import br.com.ifba.scedu.domain.entities.user.services.UserService;
+import br.com.ifba.scedu.domain.entities.user.service.UserService;
 import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ import lombok.RequiredArgsConstructor;
     Adicionar ObjectMapperUtil (Mapeamento de classes) // OK
     Adicionar anotações de transações e validação de campos // OK
     Modificar atributos da entidade e nos DTOs (+nome, -login) // OK
-    Criar exceptions personalizadas
+    Criar exceptions personalizadas // OK
     Implementar segurança com Spring Security
 */ 
 
@@ -47,14 +46,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
-        Optional<User> user = userService.findById(id);
-
-        if(user.isPresent()) {
-            UserResponseDTO responseDTO = objectMapperUtil.map(user.get(), UserResponseDTO.class);
-            return ResponseEntity.ok(responseDTO);
-        } else
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<String> findById(@PathVariable Long id) {
+        try {
+            User user = userService.findById(id);
+            UserResponseDTO userResponseDTO = objectMapperUtil.map(user, UserResponseDTO.class);
+            
+            return ResponseEntity.status(HttpStatus.OK).body("User found: " + userResponseDTO.getName());
+        } catch (UserNotFoundByIdException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found by id: " + id);
+        }
     }
 
     @PostMapping
@@ -74,9 +74,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         userService.delete(id);
         
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).body("User with id: " + id + " was sucessfully deleted!");
     }
 }

@@ -3,11 +3,9 @@ package br.com.ifba.scedu.domain.entities.user.model;
 import org.mindrot.jbcrypt.BCrypt;
 
 import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
+import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,12 +18,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    private Long id;
-
+public class User extends PersistenceEntity {
     @Column(name = "name", nullable = false)
     private String name;
 

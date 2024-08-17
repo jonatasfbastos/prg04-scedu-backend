@@ -1,4 +1,4 @@
-package br.com.ifba.scedu.domain.entities.user.repositories;
+package br.com.ifba.scedu.domain.entities.user.repository;
 
 import java.util.Optional;
 
