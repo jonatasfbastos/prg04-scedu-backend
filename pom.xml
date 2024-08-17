@@ -54,6 +54,11 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		 <!-- H2 DB -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
 		<!--PostgreSQL DB-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
