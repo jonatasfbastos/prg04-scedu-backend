@@ -2,8 +2,8 @@ package br.com.ifba.scedu.domain.entities.curso.service;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import br.com.ifba.scedu.domain.entities.curso.exception.CursoSavedException;
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.domain.entities.curso.repository.CursoRepository;
 import jakarta.transaction.Transactional;
@@ -19,12 +19,11 @@ public class CursoService {
  }
 @Transactional
  public Curso save(Curso c){
-   Curso saved = cursoRepository.save(c);
-
-   if(saved==null){
-      throw new CursoSavedException();
+   if(cursoRepository.existsByCurso(c.getCurso())){
+      throw new DataIntegrityViolationException("O curso já está cadastrado");
    }
-   return saved;
+   return cursoRepository.save(c);
+
 
   }
  
@@ -42,8 +41,6 @@ public class CursoService {
       cursoExistente.setTurno(c.getTurno());
       
       cursoRepository.save(cursoExistente);
-  } else {
-      throw new RuntimeException("Curso não encontrado com o ID: " + id);
-  }
- }
+      }
+   }
 }
