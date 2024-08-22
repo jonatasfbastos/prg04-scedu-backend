@@ -28,6 +28,9 @@ public class User extends PersistenceEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "passwordResetToken")
+    private String passwordResetToken;
+
     public User(UserRequestDTO data) {
         this.name = data.getName();
         this.email = data.getEmail();

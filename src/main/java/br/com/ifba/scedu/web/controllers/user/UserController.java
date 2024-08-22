@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ifba.scedu.domain.entities.user.dto.UserLoginDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserResponseDTO;
+import br.com.ifba.scedu.domain.entities.user.exceptions.other.AuthenticationException;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserNotFoundByIdException;
 import br.com.ifba.scedu.domain.entities.user.model.User;
 import br.com.ifba.scedu.domain.entities.user.service.UserService;
@@ -29,6 +31,7 @@ import lombok.RequiredArgsConstructor;
     Adicionar anotações de transações e validação de campos // OK
     Modificar atributos da entidade e nos DTOs (+nome, -login) // OK
     Criar exceptions personalizadas // OK
+    Adicionar Builder e Exceptions de Validação de Campos no UserException (Se for preciso)
     Implementar segurança com Spring Security
 */ 
 
@@ -54,6 +57,18 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body("User found: " + userResponseDTO.getName());
         } catch (UserNotFoundByIdException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found by id: " + id);
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserLoginDTO data) {
+        try {
+            userService.login(data); 
+            return ResponseEntity.ok("Login efetuado com sucesso"); 
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(401).body(e.getMessage()); 
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body(e.getMessage()); 
         }
     }
 
