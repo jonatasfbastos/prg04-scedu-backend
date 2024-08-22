@@ -4,14 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.ifba.scedu.domain.entities.user.dto.UserLoginDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
+import br.com.ifba.scedu.domain.entities.user.dto.UserUpdateDataDTO;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.AuthenticationException;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.NoUsersToListException;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserEmailAlreadyExistsException;
@@ -62,7 +60,7 @@ public class UserService {
     }
 
     @Transactional
-    public User update(Long id, UserRequestDTO data) {
+    public User update(Long id, UserUpdateDataDTO data) {
         User existingUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundByIdException("User not found."));
 
         if(userRepository.existsByEmail(data.getEmail()) && !existingUser.getEmail().equals(data.getEmail()))
@@ -72,9 +70,6 @@ public class UserService {
 
         existingUser.setName(data.getName());
         existingUser.setEmail(data.getEmail());
-
-        if (data.getPassword() != null && !data.getPassword().isEmpty())
-            existingUser.setPassword(BCrypt.hashpw(data.getPassword(), BCrypt.gensalt()));
 
         return userRepository.save(existingUser);
     }

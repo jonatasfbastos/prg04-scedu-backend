@@ -2,6 +2,8 @@ package br.com.ifba.scedu.web.controllers.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ifba.scedu.domain.entities.user.dto.UserLoginDTO;
+import br.com.ifba.scedu.domain.entities.user.dto.LoginRequestDTO;
+import br.com.ifba.scedu.domain.entities.user.dto.LoginResponseDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserResponseDTO;
-import br.com.ifba.scedu.domain.entities.user.exceptions.other.AuthenticationException;
+import br.com.ifba.scedu.domain.entities.user.dto.UserUpdateDataDTO;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserNotFoundByIdException;
 import br.com.ifba.scedu.domain.entities.user.model.User;
 import br.com.ifba.scedu.domain.entities.user.service.UserService;
+import br.com.ifba.scedu.infrastructure.config.TokenService;
 import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,17 +35,19 @@ import lombok.RequiredArgsConstructor;
     Adicionar anotações de transações e validação de campos // OK
     Modificar atributos da entidade e nos DTOs (+nome, -login) // OK
     Criar exceptions personalizadas // OK
-    Adicionar Builder e Exceptions de Validação de Campos no UserException (Se for preciso)
-    Implementar segurança com Spring Security
+    Adicionar Builder e Exceptions de Validação de Campos no UserException (Se for preciso) OK
+    Implementar segurança com Spring Security OK
 */ 
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class UserController {
+    private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final ObjectMapperUtil objectMapperUtil;
+    private final TokenService tokenService;
 
     @GetMapping
     public ResponseEntity<?> findAll() {
@@ -60,19 +66,17 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginDTO data) {
-        try {
-            userService.login(data); 
-            return ResponseEntity.ok("Login efetuado com sucesso"); 
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(401).body(e.getMessage()); 
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(400).body(e.getMessage()); 
-        }
+    @PostMapping("/auth/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO data){
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
-    @PostMapping
+    @PostMapping("/auth")
     public ResponseEntity<UserResponseDTO> save(@RequestBody @Valid UserRequestDTO data) {
         User createdUser = userService.save(data);
         UserResponseDTO responseDTO = objectMapperUtil.map(createdUser, UserResponseDTO.class);
@@ -81,7 +85,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody @Valid UserRequestDTO data) {
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDataDTO data) {
         User updatedUser = userService.update(id, data);
         UserResponseDTO responseDTO = objectMapperUtil.map(updatedUser, UserResponseDTO.class);
 
