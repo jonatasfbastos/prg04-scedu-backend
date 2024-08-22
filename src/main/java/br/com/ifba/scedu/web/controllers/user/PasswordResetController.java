@@ -1,5 +1,6 @@
 package br.com.ifba.scedu.web.controllers.user;
 
+import br.com.ifba.scedu.domain.entities.user.service.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ifba.scedu.domain.entities.user.dto.EmailDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.NewPasswordDTO;
-import br.com.ifba.scedu.domain.entities.user.service.PasswordResetService;
 
 @RestController
 @CrossOrigin(origins = "*")

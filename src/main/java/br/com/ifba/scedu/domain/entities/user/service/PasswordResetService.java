@@ -1,17 +1,16 @@
 package br.com.ifba.scedu.domain.entities.user.service;
 
-import java.util.Optional;
-import java.util.UUID;
+import br.com.ifba.scedu.domain.entities.user.model.User;
+import br.com.ifba.scedu.domain.entities.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import br.com.ifba.scedu.domain.entities.user.model.User;
-import br.com.ifba.scedu.domain.entities.user.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
