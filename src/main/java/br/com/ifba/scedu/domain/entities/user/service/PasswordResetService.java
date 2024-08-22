@@ -20,7 +20,7 @@ public class PasswordResetService {
 
     private final UserRepository userRepo;
 
-    public void sendPasswordResetEmail(String email) {
+    public void sendResetPasswordToken(String email) {
         System.out.println(email);
 
         Optional<User> user = this.userRepo.findByEmail(email);
@@ -38,8 +38,8 @@ public class PasswordResetService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(email);
-            message.setSubject("SCRUM MANAGER PASSWORD RESET LINK");
-            message.setText("Click the link to reset your password: " + url);
+            message.setSubject("SCEDU - Token de redefinição de senha");
+            message.setText("Clique no link ou copie o código no fim da URL: " + url);
 
             mailSender.send(message);
 
@@ -48,7 +48,7 @@ public class PasswordResetService {
         }
     }
 
-    public void resetPassword(String token, String newPassword) {
+    public void createNewPassword(String token, String newPassword) {
         System.out.println("Searching for token: " + token);
         var user = this.userRepo.findByPasswordResetToken(token);
 

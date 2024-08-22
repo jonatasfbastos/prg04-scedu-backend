@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ifba.scedu.domain.entities.user.dto.EmailDTO;
@@ -22,20 +21,20 @@ public class PasswordResetController {
     private PasswordResetService service;
 
     @PostMapping
-    public ResponseEntity<String> sendResetPasswordEmail(@RequestBody EmailDTO email) {
+    public ResponseEntity<String> sendResetPasswordToken(@RequestBody EmailDTO email) {
         System.out.println("Received email: " + email.getEmail());
 
-        this.service.sendPasswordResetEmail(email.getEmail());
+        this.service.sendResetPasswordToken(email.getEmail());
         return ResponseEntity.ok("Password request link sent, please check your email.");
 
     }
 
     @PatchMapping
-    public ResponseEntity<String> sendResetPasswordEmail(@RequestParam String token, @RequestBody NewPasswordDTO newPassword) {
-        System.out.println("Received token: " + token);
-        System.out.println("Received new password: " + newPassword.getNewPassword());
+    public ResponseEntity<String> createNewPassword(@RequestBody NewPasswordDTO data) {
+        System.out.println("Received token: " + data.getToken());
+        System.out.println("Received new password: " + data.getNewPassword());
 
-        this.service.resetPassword(token, newPassword.getNewPassword());
+        this.service.createNewPassword(data.getToken(), data.getNewPassword());
         return ResponseEntity.ok("Password updated");
     }
 }

@@ -8,5 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewPasswordDTO {
+    private String token;
     private String newPassword;
 }
