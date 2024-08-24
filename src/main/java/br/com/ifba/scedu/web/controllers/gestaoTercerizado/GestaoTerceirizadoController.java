@@ -4,6 +4,7 @@ import br.com.ifba.scedu.domain.entities.gestaoTerceirizado.dto.GestaoTerceiriza
 import br.com.ifba.scedu.domain.entities.gestaoTerceirizado.dto.GestaoTerceirizadoUpdateDTO;
 import br.com.ifba.scedu.domain.entities.gestaoTerceirizado.dto.GestaoTerceirizadoViewDTO;
 import br.com.ifba.scedu.domain.entities.gestaoTerceirizado.service.GestaoTerceirizadoService;
+import org.modelmapper.internal.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/gestaoTerceirizados")
 public class GestaoTerceirizadoController {
