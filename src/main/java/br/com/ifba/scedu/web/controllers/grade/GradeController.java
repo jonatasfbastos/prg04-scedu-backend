@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/grades")
+@CrossOrigin(origins="*")
 public class GradeController {
 
     private final GradeService gradeService;
@@ -44,7 +45,7 @@ public class GradeController {
     @GetMapping
     public ResponseEntity<Page<GradeViewDTO>> findAll(Pageable pageable) {
         Page<GradeViewDTO> grades = gradeService.findAll(pageable).map(grade -> 
-            new GradeViewDTO(grade.getCode(), grade.getName(), grade.getCurriculumCode()));
+            new GradeViewDTO(grade.getId(),grade.getCode(), grade.getName(), grade.getCurriculumCode()));
         return ResponseEntity.ok(grades);
     }
 
