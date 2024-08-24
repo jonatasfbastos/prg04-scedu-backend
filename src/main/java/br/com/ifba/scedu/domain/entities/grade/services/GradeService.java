@@ -31,7 +31,7 @@ public class GradeService {
 
         repository.save(grade);
 
-        return new GradeViewDTO(grade.getCode(), grade.getName(), grade.getCurriculumCode());
+        return new GradeViewDTO(grade.getId(), grade.getCode(), grade.getName(), grade.getCurriculumCode());
     }
 
     @Transactional(readOnly = true)
@@ -49,7 +49,7 @@ public class GradeService {
         var grade = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No records found for this ID"));
 
-        return new GradeViewDTO(grade.getCode(), grade.getName(), grade.getCurriculumCode());
+        return new GradeViewDTO(grade.getId(),grade.getCode(), grade.getName(), grade.getCurriculumCode());
     }
 
     @Transactional
@@ -62,11 +62,11 @@ public class GradeService {
        
        this.save(currentGrade);
        
-       return new GradeViewDTO(currentGrade.getCode(), currentGrade.getName(), currentGrade.getCurriculumCode());
+       return new GradeViewDTO(currentGrade.getId(), currentGrade.getCode(), currentGrade.getName(), currentGrade.getCurriculumCode());
         
     }
 
-    @Transactional
+
     public void delete(Long id) {
         
         Grade entity = repository.findById(id)
