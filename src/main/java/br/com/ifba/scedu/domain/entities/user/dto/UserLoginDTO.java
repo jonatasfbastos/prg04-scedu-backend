@@ -10,9 +10,11 @@ import lombok.*;
 public class UserLoginDTO {
     @Email(message = "E-mail inválido!")
     @NotNull(message = "O campo 'email' não pode ser nulo!")
+    // Campo que armazena o endereço de e-mail
     private String email;
 
     @NotNull(message = "O campo 'senha' não pode ser nulo!")
     @NotBlank(message = "O campo 'senha' não pode ser vazio!")
+    // Campo que armazena a senha
     private String password;
 }

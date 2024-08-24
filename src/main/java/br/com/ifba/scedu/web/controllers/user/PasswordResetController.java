@@ -13,28 +13,31 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ifba.scedu.domain.entities.user.dto.EmailDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.NewPasswordDTO;
 
-@RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/resetPassword")
+@RestController // Indica que esta classe é um controlador REST, onde cada método retorna um objeto que é serializado para JSON automaticamente.
+@CrossOrigin(origins = "*") // Permite que qualquer origem faça requisições a este controlador (CORS).
+@RequestMapping("/resetPassword") // Define o caminho base para todas as rotas neste controlador.
 public class PasswordResetController {
-    @Autowired
+
+    @Autowired // Injeta automaticamente uma instância do serviço de redefinição de senha.
     private PasswordResetService service;
 
-    @PostMapping
+    @PostMapping // Mapeia requisições HTTP POST para o caminho "/resetPassword".
     public ResponseEntity<String> sendResetPasswordToken(@RequestBody EmailDTO email) {
         System.out.println("Received email: " + email.getEmail());
 
         this.service.sendResetPasswordToken(email.getEmail());
-        return ResponseEntity.ok("Password request link sent, please check your email.");
 
+        return ResponseEntity.ok("Password request link sent, please check your email.");
     }
 
-    @PatchMapping
+    @PatchMapping // Mapeia requisições HTTP PATCH para o caminho "/resetPassword".
     public ResponseEntity<String> createNewPassword(@RequestBody NewPasswordDTO data) {
         System.out.println("Received token: " + data.getToken());
         System.out.println("Received new password: " + data.getNewPassword());
 
         this.service.createNewPassword(data.getToken(), data.getNewPassword());
+
+        // Retorna uma resposta de sucesso indicando que a senha foi atualizada.
         return ResponseEntity.ok("Password updated");
     }
 }

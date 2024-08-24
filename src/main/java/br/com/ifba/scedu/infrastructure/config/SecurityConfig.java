@@ -14,36 +14,38 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     @Autowired
-    SecurityFilter securityFilter;
+    SecurityFilter securityFilter; // Injeção do filtro de segurança customizado
 
+    // Configuração da cadeia de filtros de segurança
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return  httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        return httpSecurity
+                .csrf(csrf -> csrf.disable()) // Desativa a proteção CSRF (não recomendável para APIs REST)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Define a política de criação de sessão como sem estado (stateless)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/user/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/auth").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/resetPassword").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "/resetPassword").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "/user/auth/login").permitAll() // Permite acesso público ao endpoint de login
+                        .requestMatchers(HttpMethod.POST, "/user/auth").permitAll() // Permite acesso público ao endpoint de registro de usuário
+                        .requestMatchers(HttpMethod.POST, "/resetPassword").permitAll() // Permite acesso público ao endpoint de redefinição de senha
+                        .requestMatchers(HttpMethod.PATCH, "/resetPassword").permitAll() // Permite acesso público ao endpoint de atualização de senha
+                        .anyRequest().authenticated() // Requer autenticação para TODAS AS OUTRAS REQUISIÇÕES
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o filtro de segurança customizado antes do filtro padrão de autenticação
                 .build();
     }
 
+    // Configuração do AuthenticationManager para gerenciar autenticação
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        return authenticationConfiguration.getAuthenticationManager(); // Retorna o AuthenticationManager configurado
     }
 
+    // Configuração do PasswordEncoder para criptografar senhas
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // Retorna um encoder BCrypt para criptografia de senhas
     }
 }

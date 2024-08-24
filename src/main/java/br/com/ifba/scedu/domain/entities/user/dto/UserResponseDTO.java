@@ -7,5 +7,6 @@ import lombok.*;
 @Getter
 @Setter
 public class UserResponseDTO {
+    // Campo que armazena o nome de usuario
     private String name;
 }

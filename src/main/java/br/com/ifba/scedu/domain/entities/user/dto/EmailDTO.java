@@ -8,5 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailDTO {
+    // Campo que armazena o endereço de e-mail
     private String email;
 }

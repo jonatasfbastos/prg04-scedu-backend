@@ -8,6 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewPasswordDTO {
+    // Campo que armazena o token de login
     private String token;
+    // Campo que armazena a senha
     private String newPassword;
 }
