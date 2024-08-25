@@ -3,15 +3,13 @@ package br.com.ifba.scedu.domain.entities.user.model;
 import java.util.Collection;
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +18,7 @@ import lombok.Setter;
 // Anotações @Entity e @Table indicam que esta classe é uma entidade JPA
 // e será mapeada para a tabela "users" no banco de dados.
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED) // Adiciona uma nova tabela no banco de dados para as classes que herdam de User
 @Table(name = "users")
 @Getter
 @Setter
