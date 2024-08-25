@@ -24,7 +24,7 @@ public class CursoService {
 @Transactional
  public Curso save(Curso c){
    // i checked only the name because cannot there the same course
-   if(cursoRepository.existsByCurso(c.getName())){
+   if(cursoRepository.existsByName(c.getName())){
       throw new DataIntegrityViolationException("O curso já está cadastrado");
    }
    return cursoRepository.save(c);
