@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,19 +47,21 @@ public class User extends PersistenceEntity implements UserDetails {
 
     // Construtor que cria um objeto User a partir de um DTO de requisição.
     // Se o papel do usuário não for fornecido, ele assume o valor padrão de USER.
-    public User(UserRequestDTO data) {
-        this.name = data.getName();
-        this.email = data.getEmail();
-        this.password = data.getPassword();
-        this.role = data.getRole() != null ? data.getRole() : UserRoleEnum.USER;
+    public User(User user) {
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.role = user.getRole() != null ? user.getRole() : UserRoleEnum.USER;
     }
 
     // Método de fábrica (factory method) que cria um User a partir de um DTO,
     // criptografando a senha antes de definir o campo password.
-    public static User fromDTOWithEncryptedPassword(UserRequestDTO data) {
-        User user = new User(data);
+    public static User fromDTOWithEncryptedPassword(User user) {
+        user = new User(user);
+
         // BCrypt é uma classe usada para criptografar a senha do usuário.
-        user.setPassword(BCrypt.hashpw(data.getPassword(), BCrypt.gensalt()));
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+
         return user;
     }
 

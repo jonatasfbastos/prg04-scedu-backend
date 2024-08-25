@@ -31,6 +31,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/auth").permitAll() // Permite acesso público ao endpoint de registro de usuário
                         .requestMatchers(HttpMethod.POST, "/resetPassword").permitAll() // Permite acesso público ao endpoint de redefinição de senha
                         .requestMatchers(HttpMethod.PATCH, "/resetPassword").permitAll() // Permite acesso público ao endpoint de atualização de senha
+                        .requestMatchers(HttpMethod.PUT, "/user/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/user/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
                         .anyRequest().authenticated() // Requer autenticação para TODAS AS OUTRAS REQUISIÇÕES
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o filtro de segurança customizado antes do filtro padrão de autenticação
