@@ -57,8 +57,9 @@ public class UserController {
         }
     }
 
+    // Faz a validação de login do usuário no próprio Controller
     @PostMapping("/auth/login") // Mapeia requisições HTTP POST para "/user/auth/login"
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO data){
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         
         var auth = this.authenticationManager.authenticate(usernamePassword);
@@ -70,18 +71,18 @@ public class UserController {
 
     @PostMapping("/auth") // Mapeia requisições HTTP POST para "/user/auth"
     public ResponseEntity<UserResponseDTO> save(@RequestBody @Valid UserRequestDTO data) {
-        User createdUser = userService.save(data);
-        
-        UserResponseDTO responseDTO = objectMapperUtil.map(createdUser, UserResponseDTO.class);
+        User createUser = objectMapperUtil.map(data, User.class);
+        User user = userService.save(createUser);
+        UserResponseDTO responseDTO = objectMapperUtil.map(user, UserResponseDTO.class);
         
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     @PutMapping("/{id}") // Mapeia requisições HTTP PUT para "/user/{id}"
     public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDataDTO data) {
-        User updatedUser = userService.update(id, data);
-        
-        UserResponseDTO responseDTO = objectMapperUtil.map(updatedUser, UserResponseDTO.class);
+        User updatedUser = objectMapperUtil.map(data, User.class);
+        User user = userService.update(id, updatedUser);
+        UserResponseDTO responseDTO = objectMapperUtil.map(user, UserResponseDTO.class);
 
         return ResponseEntity.ok(responseDTO);
     }
