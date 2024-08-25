@@ -1,7 +1,6 @@
 package br.com.ifba.scedu.web.controllers.student;
 
 import br.com.ifba.scedu.domain.entities.student.dto.StudentDTO;
-import br.com.ifba.scedu.domain.entities.student.dto.StudentPageDTO;
 import br.com.ifba.scedu.domain.entities.student.model.Student;
 import br.com.ifba.scedu.domain.entities.student.service.StudentService;
 import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
@@ -12,10 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/students")
@@ -53,9 +48,9 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<StudentPageDTO>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<StudentDTO>> findAll(Pageable pageable) {
         Page<Student> studentsPage = this.studentService.findAll(pageable);
-        Page<StudentPageDTO> studentsPageDTO = studentsPage.map(student -> objectMapperUtil.map(student, StudentPageDTO.class));
+        Page<StudentDTO> studentsPageDTO = studentsPage.map(student -> objectMapperUtil.map(student, StudentDTO.class));
 
         return ResponseEntity.ok(studentsPageDTO);
     }
