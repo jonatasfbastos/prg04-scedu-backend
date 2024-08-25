@@ -17,7 +17,7 @@ import java.util.List;
  * Herda da classe User e adiciona atributos e métodos específicos para professores.
  */
 @Entity
-@Table(name = "professores") // Define o nome da tabela no banco de dados
+@Table(name = "professores")
 @Getter
 @Setter
 @NoArgsConstructor
