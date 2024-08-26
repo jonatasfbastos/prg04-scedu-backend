@@ -5,11 +5,14 @@ import br.com.ifba.scedu.domain.entities.professor.repository.ProfessorRepositor
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserEmailAlreadyExistsException;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserNotFoundByIdException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static br.com.ifba.scedu.infrastructure.util.BeanUtilsHelper.getNullPropertyNames;
 
 /**
  * @author Matheus Mendes
@@ -90,20 +93,14 @@ public class ProfessorService implements ProfessorIService {
         Professor existingProfessor = findById(id);
 
         // Verifica se o email do professor já está em uso e é diferente do email atual
-        if (professorRepository.existsByEmail(professor.getEmail()) && !existingProfessor.getEmail().equals(professor.getEmail())) {
+        if (professor.getEmail() != null && professorRepository.existsByEmail(professor.getEmail()) && !existingProfessor.getEmail().equals(professor.getEmail())) {
             throw new UserEmailAlreadyExistsException("Email já existente.");
         }
-
-        // Atualiza os dados do professor existente
-        existingProfessor.setName(professor.getName());
-        existingProfessor.setEmail(professor.getEmail());
-        existingProfessor.setSiape(professor.getSiape());
-        existingProfessor.setDepartamento(professor.getDepartamento());
-        existingProfessor.setCargaHoraria(professor.getCargaHoraria());
+        // Copia as propriedades do objeto professor para o professor existente, ignorando propriedades nulas
+        BeanUtils.copyProperties(professor, existingProfessor, getNullPropertyNames(professor));
 
         return professorRepository.save(existingProfessor);
     }
-
     /**
      * @author Matheus Mendes
      * Deleta um professor pelo ID.

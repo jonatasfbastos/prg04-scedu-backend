@@ -1,5 +1,6 @@
 package br.com.ifba.scedu.web.controllers.professor;
 
+import br.com.ifba.scedu.domain.entities.professor.dto.ProfessorResponseDTO;
 import br.com.ifba.scedu.domain.entities.professor.model.Professor;
 import br.com.ifba.scedu.domain.entities.professor.service.ProfessorIService;
 import br.com.ifba.scedu.domain.entities.user.dto.UserResponseDTO;
@@ -32,12 +33,12 @@ public class ProfessorController {
      * @return Uma lista de objetos do tipo UserResponseDTO, que representam os professores.
      */
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> findAll() {
+    public ResponseEntity<List<ProfessorResponseDTO>> findAll() {
         // Busca todos os professores cadastrados no sistema
         List<Professor> professores = professorIService.findAll();
 
         // Converte a lista de professores para uma lista de objetos UserResponseDTO
-        List<UserResponseDTO> responseDTO = objectMapperUtil.mapAll(professores, UserResponseDTO.class);
+        List<ProfessorResponseDTO> responseDTO = objectMapperUtil.mapAll(professores, ProfessorResponseDTO.class);
 
         // Retorna a lista de professores com status HTTP OK (200)
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
@@ -52,12 +53,12 @@ public class ProfessorController {
      * @return Uma resposta HTTP com o professor encontrado, ou um erro se não for encontrado.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<ProfessorResponseDTO> findById(@PathVariable Long id) {
         // Chama o serviço para buscar o professor pelo ID
         Professor professor = professorIService.findById(id);
 
         // Converte o professor encontrado para um objeto UserResponseDTO
-        UserResponseDTO responseDTO = objectMapperUtil.map(professor, UserResponseDTO.class);
+        ProfessorResponseDTO responseDTO = objectMapperUtil.map(professor, ProfessorResponseDTO.class);
 
         // Retorna a resposta HTTP com o professor encontrado e status OK (200)
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
@@ -91,15 +92,12 @@ public class ProfessorController {
      * @return Uma resposta HTTP com o professor atualizado e status OK (200).
      */
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody Professor professor) {
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Professor professor) {
         // Chama o serviço para atualizar o professor
-        Professor updatedProfessor = professorIService.update(id, professor);
-
-        // Converte o professor atualizado para um objeto UserResponseDTO
-        UserResponseDTO responseDTO = objectMapperUtil.map(updatedProfessor, UserResponseDTO.class);
+        this.professorIService.update(id, professor);
 
         // Retorna a resposta HTTP com o professor atualizado e status OK (200)
-        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Atualização realizada com sucesso!");
     }
 
     /**
