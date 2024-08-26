@@ -1,13 +1,15 @@
 package br.com.ifba.scedu.domain.entities.escola.model;
 
+import br.com.ifba.scedu.domain.entities.grade.model.Grade;
+import br.com.ifba.scedu.domain.entities.student.model.Student;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "escolas")
@@ -20,7 +22,7 @@ public class Escola extends PersistenceEntity {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "inep", nullable = false)
+   @Column(name = "inep", nullable = false)
     private String inep;
 
     @Column(name = "localizacao", nullable = false)
@@ -47,7 +49,13 @@ public class Escola extends PersistenceEntity {
     @Column(name = "nomeDiretor", nullable = false)
     private String nomeDiretor;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "escola_id")
+    private List<Grade> series;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "escola_id")
+    private List<Student> alunos;
 
 /*Esta funcionalidade deve permitir a gestão das escolas.
  As funções disponíveis são: cadastrar, alterar, remover, pesquisar e listar escolas.

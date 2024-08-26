@@ -3,6 +3,9 @@ package br.com.ifba.scedu.domain.entities.escola.service;
 import br.com.ifba.scedu.domain.entities.escola.model.Escola;
 import br.com.ifba.scedu.domain.entities.escola.repository.EscolaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +39,9 @@ public class EscolaService implements EscolaIService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Escola> findAll() {
-        return escolaRepository.findAll();
+    public Page<Escola> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return escolaRepository.findAllPageable(pageable);
     }
 
     @Override
