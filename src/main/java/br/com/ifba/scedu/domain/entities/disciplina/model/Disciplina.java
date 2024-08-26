@@ -1,12 +1,12 @@
 package br.com.ifba.scedu.domain.entities.disciplina.model;
 
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 
@@ -17,8 +17,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Disciplina extends PersistenceEntity implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String nomeAbreviado;
+
+    @Column(nullable = false)
     private String baseCurricular;
 }
