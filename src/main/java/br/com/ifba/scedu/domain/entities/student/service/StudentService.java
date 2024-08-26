@@ -1,11 +1,8 @@
 package br.com.ifba.scedu.domain.entities.student.service;
 
-import br.com.ifba.scedu.domain.entities.student.dto.StudentDTO;
-import br.com.ifba.scedu.domain.entities.student.dto.StudentPageDTO;
 import br.com.ifba.scedu.domain.entities.student.model.Student;
 import br.com.ifba.scedu.domain.entities.student.repository.StudentRepository;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserEmailAlreadyExistsException;
-import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
