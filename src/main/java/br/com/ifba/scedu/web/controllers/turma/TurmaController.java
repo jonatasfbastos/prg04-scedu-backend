@@ -1,60 +1,61 @@
 package br.com.ifba.scedu.web.controllers.turma;
 
-import br.com.ifba.scedu.domain.entities.turma.DTO.TurmaDTO;
-import br.com.ifba.scedu.domain.entities.turma.model.Turma;
 import br.com.ifba.scedu.domain.entities.turma.services.TurmaService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.ifba.scedu.domain.entities.turma.DTO.TurmaCreateDto;
+import br.com.ifba.scedu.domain.entities.turma.DTO.TurmaResponseDto;
+import br.com.ifba.scedu.domain.entities.turma.model.Turma;
+import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 @RequestMapping("/turmas")
 public class TurmaController {
 
-    @Autowired
-    private TurmaService turmaService;
+    private final TurmaService turmaService;
+    private final ObjectMapperUtil objectMapperUtil;
 
-    @PostMapping
-public ResponseEntity<TurmaDTO> create(@RequestBody TurmaDTO turmaDTO) {
-    Turma newTurma = new Turma();
-    newTurma.setCodigo(turmaDTO.codigo());
-    newTurma.setEscola(turmaDTO.escola());
-    newTurma.setNome(turmaDTO.nome());
-    newTurma.setSerie(turmaDTO.serie());
-    newTurma.setAnoLetivo(turmaDTO.anoLetivo().intValue()); // Convertendo Integer para int
-    newTurma.setNumeroSala(turmaDTO.numeroSala().intValue()); // Convertendo Integer para int
-    newTurma.setTurno(turmaDTO.turno());
-    newTurma.setNumeroMaximoAlunos(turmaDTO.numeroMaximoAlunos());
-    
-    this.turmaService.save(newTurma);
-    return ResponseEntity.status(HttpStatus.CREATED).body(turmaDTO);
-}
+    @PostMapping("/save")
+    public ResponseEntity<TurmaResponseDto> save(@RequestBody TurmaCreateDto dto) {
+        Turma turma = objectMapperUtil.map(dto, Turma.class);
+        Turma savedTurma = this.turmaService.save(turma);
+        TurmaResponseDto responseDto = objectMapperUtil.map(savedTurma, TurmaResponseDto.class);
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<TurmaResponseDto> update(@PathVariable Long id, @RequestBody TurmaCreateDto dto) {
+        Turma updatedTurma = objectMapperUtil.map(dto, Turma.class);
+        Turma turma = this.turmaService.update(id, updatedTurma);
+        TurmaResponseDto responseDto = objectMapperUtil.map(turma, TurmaResponseDto.class);
+
+        return ResponseEntity.ok(responseDto);
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TurmaDTO> getById(@PathVariable Long id) {
-        var turma = turmaService.findById(id);
-        return ResponseEntity.ok(turma);
-    }
+    public ResponseEntity<TurmaResponseDto> findById(@PathVariable Long id) {
+        Turma turma = this.turmaService.findById(id);
+        TurmaResponseDto responseDto = objectMapperUtil.map(turma, TurmaResponseDto.class);
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TurmaDTO> update(@PathVariable Long id, @RequestBody TurmaDTO turmaDTO) {
-        var updatedTurma = turmaService.update(turmaDTO, id);
-        return ResponseEntity.ok(updatedTurma);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        turmaService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping
-    public ResponseEntity<Page<TurmaDTO>> getAll(Pageable pageable) {
-        var turmas = turmaService.findAll(pageable);
-        return ResponseEntity.ok(turmas.map(TurmaDTO::new));
+    public ResponseEntity<Page<TurmaResponseDto>> findAll(Pageable pageable) {
+        Page<Turma> turmasPage = turmaService.findAll(pageable);
+        Page<TurmaResponseDto> turmasResponseDtos = turmasPage.map(turma -> objectMapperUtil.map(turma, TurmaResponseDto.class));
+        return ResponseEntity.ok(turmasResponseDtos);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        this.turmaService.delete(id);
+        return ResponseEntity.ok("Turma deleted");
     }
 }

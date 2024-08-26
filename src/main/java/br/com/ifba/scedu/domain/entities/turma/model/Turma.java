@@ -1,8 +1,12 @@
 package br.com.ifba.scedu.domain.entities.turma.model;
 
+
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +20,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Turma extends PersistenceEntity {
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
     @Column(nullable = false, unique = true)
     private String codigo;
     
@@ -30,14 +38,14 @@ public class Turma extends PersistenceEntity {
     private String serie;
     
     @Column(nullable = false)
-    private Integer anoLetivo;
+    private String anoLetivo;
     
     @Column(nullable = false)
-    private Integer numeroSala;
+    private String numeroSala;
     
     @Column(nullable = false)
     private String turno;
     
     @Column(nullable = false)
-    private Integer numeroMaximoAlunos;
+    private int numeroMaximoAlunos;
 }
