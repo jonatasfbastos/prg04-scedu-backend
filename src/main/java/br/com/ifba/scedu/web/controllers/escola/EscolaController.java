@@ -43,7 +43,7 @@ public class EscolaController {
     }
 
     @GetMapping(path = "/findall", produces = "application/json")
-    public ResponseEntity<?> getAll(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<?> findAll(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size){
 
         Page<Escola> escolaPage = this.escolaService.findAll(page, size);
