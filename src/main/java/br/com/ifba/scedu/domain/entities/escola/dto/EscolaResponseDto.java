@@ -35,8 +35,9 @@ public class EscolaResponseDto {
     private String modalidade;
 
     private String nomeDiretor;
-
+/*
     private List<GradeViewDTO> series;
 
     private List<StudentDTO> alunos;
+ */
 }
