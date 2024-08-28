@@ -4,6 +4,8 @@ import br.com.ifba.scedu.domain.entities.escola.dto.EscolaRequestDto;
 import br.com.ifba.scedu.domain.entities.escola.dto.EscolaResponseDto;
 import br.com.ifba.scedu.domain.entities.escola.model.Escola;
 import br.com.ifba.scedu.domain.entities.escola.service.EscolaService;
+import br.com.ifba.scedu.domain.entities.student.dto.StudentDTO;
+import br.com.ifba.scedu.domain.entities.student.model.Student;
 import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -50,6 +52,14 @@ public class EscolaController {
         Page<EscolaResponseDto> escolaDto = escolaPage.map(escola -> objectMapperUtil.map(escola, EscolaResponseDto.class));
 
         return ResponseEntity.status(HttpStatus.OK).body(escolaDto);
+    }
+
+    @GetMapping(value = "/findById/{id}")
+    public ResponseEntity<EscolaResponseDto> findById(@PathVariable Long id) {
+        Escola escola = this.escolaService.findById(id);
+        EscolaResponseDto escolaDto = objectMapperUtil.map(escola, EscolaResponseDto.class);
+
+        return ResponseEntity.ok(escolaDto);
     }
 
     @DeleteMapping(path = "/delete/{id}", produces = "application/json")

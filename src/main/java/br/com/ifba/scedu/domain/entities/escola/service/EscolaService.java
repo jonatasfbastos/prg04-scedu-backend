@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class EscolaService implements EscolaIService{
@@ -57,5 +55,11 @@ public class EscolaService implements EscolaIService{
     public Page<Escola> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return escolaRepository.findAllPageable(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Escola findById(Long id) {
+        return this.escolaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ID nao encontrado"));
     }
 }

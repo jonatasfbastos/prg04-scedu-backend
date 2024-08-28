@@ -3,8 +3,6 @@ package br.com.ifba.scedu.domain.entities.escola.service;
 import br.com.ifba.scedu.domain.entities.escola.model.Escola;
 import org.springframework.data.domain.Page;
 
-import java.util.Optional;
-
 public interface EscolaIService {
 
     Escola save(Escola escola);
@@ -14,4 +12,6 @@ public interface EscolaIService {
     String delete(Long id);
 
     Page<Escola> findAll(int page, int size);
+
+    Escola findById(Long id);
 }
