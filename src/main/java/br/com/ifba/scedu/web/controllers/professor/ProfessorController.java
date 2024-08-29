@@ -1,10 +1,11 @@
 package br.com.ifba.scedu.web.controllers.professor;
 
+import br.com.ifba.scedu.domain.entities.professor.dto.ProfessorRequestDTO;
 import br.com.ifba.scedu.domain.entities.professor.dto.ProfessorResponseDTO;
 import br.com.ifba.scedu.domain.entities.professor.model.Professor;
 import br.com.ifba.scedu.domain.entities.professor.service.ProfessorIService;
-import br.com.ifba.scedu.domain.entities.user.dto.UserResponseDTO;
 import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,16 +69,15 @@ public class ProfessorController {
      * @author Matheus Mendes
      * Salva um novo professor no sistema.
      *
-     * @param professor O objeto Professor a ser salvo.
+     * @param professorRequestDTO O objeto Professor a ser salvo.
      * @return Uma resposta HTTP com o professor salvo e status CREATED (201).
      */
     @PostMapping
-    public ResponseEntity<UserResponseDTO> save(@RequestBody Professor professor) {
-        // Chama o serviço para salvar o professor
-        Professor savedProfessor = professorIService.save(professor);
+    public ResponseEntity<ProfessorResponseDTO> save(@RequestBody @Valid ProfessorRequestDTO professorRequestDTO) {
 
-        // Converte o professor salvo para um objeto UserResponseDTO
-        UserResponseDTO responseDTO = objectMapperUtil.map(savedProfessor, UserResponseDTO.class);
+        Professor professor = objectMapperUtil.map(professorRequestDTO, Professor.class);
+        Professor savedProfessor = professorIService.save(professor);
+        ProfessorResponseDTO responseDTO = objectMapperUtil.map(savedProfessor, ProfessorResponseDTO.class);
 
         // Retorna a resposta HTTP com o professor salvo e status CREATED (201)
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
@@ -88,16 +88,18 @@ public class ProfessorController {
      * Atualiza um professor existente no sistema.
      *
      * @param id O ID do professor a ser atualizado.
-     * @param professor O objeto Professor com as informações atualizadas.
+     * @param professorRequestDTO O objeto Professor com as informações atualizadas.
      * @return Uma resposta HTTP com o professor atualizado e status OK (200).
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Professor professor) {
-        // Chama o serviço para atualizar o professor
-        this.professorIService.update(id, professor);
+    public ResponseEntity<ProfessorResponseDTO> update(@PathVariable Long id, @RequestBody @Valid ProfessorRequestDTO professorRequestDTO) {
+
+        Professor professor = objectMapperUtil.map(professorRequestDTO, Professor.class);
+        Professor savedProfessor = this.professorIService.update(id, professor);
+        ProfessorResponseDTO professorResponseDTO = objectMapperUtil.map(savedProfessor, ProfessorResponseDTO.class);
 
         // Retorna a resposta HTTP com o professor atualizado e status OK (200)
-        return ResponseEntity.status(HttpStatus.OK).body("Atualização realizada com sucesso!");
+        return ResponseEntity.status(HttpStatus.OK).body(professorResponseDTO);
     }
 
     /**
@@ -115,4 +117,5 @@ public class ProfessorController {
         // Retorna a resposta HTTP com uma mensagem de sucesso
         return ResponseEntity.status(HttpStatus.OK).body("Professor deletado com sucesso!");
     }
+
 }

@@ -1,15 +1,8 @@
 package br.com.ifba.scedu.domain.entities.professor.model;
 
 import br.com.ifba.scedu.domain.entities.user.model.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Matheus Mendes
@@ -43,13 +36,4 @@ public class Professor extends User {
     @Column(name = "carga_horaria")
     private Integer cargaHoraria;
 
-    /**
-     * Retorna as autoridades (permissões) do professor.
-     * Neste caso, o professor é considerado com a permissão "ROLE_PROFESSOR".
-     * @return uma lista contendo a permissão "ROLE_PROFESSOR".
-     */
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_PROFESSOR"));
-    }
 }

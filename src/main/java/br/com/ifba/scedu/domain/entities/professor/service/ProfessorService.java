@@ -1,5 +1,6 @@
 package br.com.ifba.scedu.domain.entities.professor.service;
 
+import br.com.ifba.scedu.domain.entities.professor.exceptions.other.ProfessorAlreadyExistsException;
 import br.com.ifba.scedu.domain.entities.professor.model.Professor;
 import br.com.ifba.scedu.domain.entities.professor.repository.ProfessorRepository;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserEmailAlreadyExistsException;
@@ -59,15 +60,14 @@ public class ProfessorService implements ProfessorIService {
      *
      * @param professor o objeto Professor a ser salvo
      * @return o professor salvo
-     * @throws UserEmailAlreadyExistsException se o email do professor já estiver em uso
+     * @throws UserEmailAlreadyExistsException se já existir um professor cadastrado com o mesmo email
      */
     @Override
     @Transactional
     public Professor save(Professor professor) {
         // Verifica se o email do professor já está em uso
-        if (professorRepository.existsByEmail(professor.getEmail())) {
-            // Lança uma exceção personalizada caso o email já esteja em uso
-            throw new UserEmailAlreadyExistsException("Email já existente.");
+        if (professorRepository.existsByEmail(professor.getEmail()) || professorRepository.existsBySiape(professor.getSiape())) {
+            throw new ProfessorAlreadyExistsException("Email ou siape do professor já está cadastrado.");
         }
 
         // Criptografa a senha do professor antes de salvar
@@ -92,10 +92,9 @@ public class ProfessorService implements ProfessorIService {
         // Busca o professor existente pelo ID
         Professor existingProfessor = findById(id);
 
-        // Verifica se o email do professor já está em uso e é diferente do email atual
-        if (professor.getEmail() != null && professorRepository.existsByEmail(professor.getEmail()) && !existingProfessor.getEmail().equals(professor.getEmail())) {
-            throw new UserEmailAlreadyExistsException("Email já existente.");
-        }
+        // Criptografa a senha do professor antes de salvar
+        professor.setPassword(BCrypt.hashpw(professor.getPassword(), BCrypt.gensalt()));
+
         // Copia as propriedades do objeto professor para o professor existente, ignorando propriedades nulas
         BeanUtils.copyProperties(professor, existingProfessor, getNullPropertyNames(professor));
 
@@ -114,8 +113,12 @@ public class ProfessorService implements ProfessorIService {
         // Verifica se o professor existe no banco de dados
         if (!professorRepository.existsById(id)) {
             // Lança uma exceção personalizada caso o professor não seja encontrado
-            throw new UserNotFoundByIdException("Professor não encontrado pelo id: " + id);
+            throw new UserNotFoundByIdException("Professor não encontrado.");
         }
         // Deleta o professor do banco de dados
         professorRepository.deleteById(id);
-    }}
+    }
+
+
+
+}

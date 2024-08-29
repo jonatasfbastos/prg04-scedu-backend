@@ -12,11 +12,12 @@ import org.springframework.stereotype.Repository;
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 
     /**
-     * @author Matheus Mendes
-     * Verifica se existe um professor com o e-mail informado.
-     *
      * @param email E-mail do professor a ser verificado.
      * @return True se o e-mail existir, false caso contrário.
+     * @author Matheus Mendes
+     * Verifica se existe um professor com o e-mail informado.
      */
     boolean existsByEmail(String email);
+    boolean existsBySiape(String siape);
+
 }
