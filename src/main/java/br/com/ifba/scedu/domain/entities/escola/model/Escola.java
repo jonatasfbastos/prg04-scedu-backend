@@ -48,7 +48,7 @@ public class Escola extends PersistenceEntity {
 
     @Column(name = "nomeDiretor", nullable = false)
     private String nomeDiretor;
-
+/*
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "escola_id")
     private List<Grade> series;
@@ -56,7 +56,7 @@ public class Escola extends PersistenceEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "escola_id")
     private List<Student> alunos;
-
+*/
 /*Esta funcionalidade deve permitir a gestão das escolas.
  As funções disponíveis são: cadastrar, alterar, remover, pesquisar e listar escolas.
 No cadastro deve-se informar o nome da escola, código do INEP, localização, CEP,

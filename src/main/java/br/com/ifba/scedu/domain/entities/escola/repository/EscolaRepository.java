@@ -12,8 +12,6 @@ import java.util.Optional;
 @Repository
 public interface EscolaRepository extends JpaRepository<Escola, Long> {
 
-    Optional<Escola> findById(Long id);
-
-    @Query("select c from User c")
+    @Query("select c from Escola c")
     Page<Escola> findAllPageable(Pageable pageable);
 }
