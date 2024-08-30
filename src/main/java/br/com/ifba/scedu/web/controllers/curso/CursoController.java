@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ifba.scedu.domain.entities.curso.dto.CursoGetResponseDto;
-import br.com.ifba.scedu.domain.entities.curso.dto.CursoRequestPostDto;
+import br.com.ifba.scedu.domain.entities.curso.dto.CursoDto;
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.domain.entities.curso.service.CursoService;
+import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -27,37 +27,32 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CursoController {
     private final CursoService cursoService;
+    private final ObjectMapperUtil mapper;// object to convert class
+
 
     @GetMapping(path = "/findall", produces = "application/json")
-    public ResponseEntity<List<CursoGetResponseDto>> findAll(){
-        List<CursoGetResponseDto> cursos = cursoService.findAll().stream().map(CursoGetResponseDto::new).toList();
-      return ResponseEntity.status(HttpStatus.OK).body(cursos);
+    public ResponseEntity<List<CursoDto>> findAll(){
+    
+      return ResponseEntity.status(HttpStatus.OK).body(mapper.mapAll(cursoService.findAll(), CursoDto.class));
 
     }
     @GetMapping("/findcourse/{name}")
-    public ResponseEntity<CursoGetResponseDto> getMethodName(@PathVariable String name) {
+    public ResponseEntity<CursoDto> findCursoByName(@PathVariable String name) {
         Curso c = cursoService.findByName(name);
-        CursoGetResponseDto reposta = new CursoGetResponseDto(c.getName(),c.getDescription(),c.getMode());
-        return ResponseEntity.status(HttpStatus.OK).body(reposta);
+        CursoDto resposta = mapper.map(c, CursoDto.class);
+        
+        
+        return ResponseEntity.status(HttpStatus.OK).body(resposta);
     }
     
 
     @PostMapping(path = "/save", consumes="application/json")
-    public ResponseEntity<CursoGetResponseDto> save(@RequestBody @Valid CursoRequestPostDto post){
-        // i'm setting fields the course with my dto post
-        Curso c = new Curso();
-        c.setName(post.name());
-        c.setCode(post.code());
-        c.setDescription(post.description());
-        c.setCourseHours(post.courseHours());
-        c.setStatus(post.status());
-        // here i get the return
+    public ResponseEntity<Curso> save(@RequestBody @Valid CursoDto post){
+        Curso c = mapper.map(post, Curso.class);
+    
         Curso cursoRetorno = cursoService.save(c);
-        //i'm setting my response here in a new dto reponse
-        CursoGetResponseDto resposta = new CursoGetResponseDto(
-          cursoRetorno.getName(),cursoRetorno.getDescription(), cursoRetorno.getMode()
-        );
-        return ResponseEntity.status(HttpStatus.CREATED).body(resposta);
+       
+        return ResponseEntity.status(HttpStatus.CREATED).body(cursoRetorno);
     }
 
     @DeleteMapping(path = "/delete/{id}", produces="application/json")
@@ -67,7 +62,8 @@ public class CursoController {
     }
 
     @PutMapping(path="/update/{id}", consumes="application/json")
-    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Curso c){
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody @Valid CursoDto cursoUpdate){
+        Curso c = mapper.map(cursoUpdate, Curso.class);
       cursoService.update(c, id);
         return ResponseEntity.status(HttpStatus.OK).body("Curso Atualizado");
     }

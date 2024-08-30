@@ -52,4 +52,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // Retorna um encoder BCrypt para criptografia de senhas
     }
+    
+        
 }

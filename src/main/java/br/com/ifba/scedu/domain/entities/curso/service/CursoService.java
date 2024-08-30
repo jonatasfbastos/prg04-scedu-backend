@@ -38,28 +38,16 @@ public class CursoService {
  }
  @Transactional
  public void update(Curso c, Long id){
-   // if course exists, i get the return and update the fields non null
+   // if course exists, i get the return and update the fields
       if (cursoRepository.existsById(id)) {
       Curso cursoExistente = cursoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
       
-      if(c.getName()!= null){
-         cursoExistente.setName(c.getName());
-      }
-      if(c.getCode()!= null){
-        cursoExistente.setCode(c.getCode());
-      }
-      if(c.getDescription()!= null){
-         cursoExistente.setDescription(c.getDescription());
-      }
-      if(c.getCourseHours()!= null){
-         cursoExistente.setCourseHours(c.getCourseHours());
-      }
-      if(c.isStatus()){
-         cursoExistente.setStatus(c.isStatus());
-      }
-      if(c.getMode()!= null){
-         cursoExistente.setMode(c.getMode());
-       }
+      cursoExistente.setCode(c.getCode());
+      cursoExistente.setName(c.getName());
+      cursoExistente.setDescription(c.getDescription());
+      cursoExistente.setCourseHours(c.getCourseHours());
+      cursoExistente.setStatus(c.isStatus());
+      cursoExistente.setMode(c.getMode());
       
       cursoRepository.save(cursoExistente);
       }

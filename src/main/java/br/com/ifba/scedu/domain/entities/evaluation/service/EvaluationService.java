@@ -3,7 +3,6 @@ package br.com.ifba.scedu.domain.entities.evaluation.service;
 
 
 import br.com.ifba.scedu.domain.entities.evaluation.model.Evaluation;
-import br.com.ifba.scedu.domain.entities.evaluation.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +32,7 @@ public class EvaluationService implements EvaluationIService {
 
     public Evaluation findById(Long id) {
         return avaliacaoRepository.findById(id)
-                .orElseThrow(()->new BusinessException("Recurso não encontrado!"));
+                .orElseThrow(()->new RuntimeException("Recurso não encontrado!"));
     }
 
     @Transactional

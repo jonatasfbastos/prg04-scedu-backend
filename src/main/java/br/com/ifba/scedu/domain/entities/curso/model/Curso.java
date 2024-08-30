@@ -18,11 +18,11 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class Curso extends PersistenceEntity{
-    @Column(name = "nome")
-    private String name;
-
     @Column(name = "codigo")
     private String code;
+
+    @Column(name = "nome")
+    private String name;
 
     @Column(name = "descricao")
     private String description;
