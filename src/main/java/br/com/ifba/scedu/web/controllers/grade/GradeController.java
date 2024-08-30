@@ -4,6 +4,7 @@
  */
 package br.com.ifba.scedu.web.controllers.grade;
 
+import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.domain.entities.grade.model.DTOs.GradeViewDTO;
 import br.com.ifba.scedu.domain.entities.grade.model.Grade;
 import br.com.ifba.scedu.domain.entities.grade.services.GradeService;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins="*")
 public class GradeController {
 
-    private final GradeService gradeService;
+     private final GradeService gradeService;
 
     @Autowired
     public GradeController(GradeService gradeService) {
@@ -33,19 +34,36 @@ public class GradeController {
 
     @PostMapping
     public ResponseEntity<GradeViewDTO> save(@RequestBody GradeViewDTO gradeDTO) {
+        // Criar nova Grade com base no DTO
         Grade newGrade = new Grade();
         newGrade.setCode(gradeDTO.code());
         newGrade.setCurriculumCode(gradeDTO.curriculumCode());
         newGrade.setName(gradeDTO.name());
-        
-        this.gradeService.save(newGrade);
-        return ResponseEntity.status(HttpStatus.CREATED).body(gradeDTO);
+
+        // Verificar se o courseId foi passado e associar o curso
+        if (gradeDTO.courseId() != null) {
+            Curso curso = new Curso();
+            curso.setId(gradeDTO.courseId());
+            newGrade.setCourse(curso);
+        }
+
+        // Salvar a nova Grade
+        GradeViewDTO savedGrade = gradeService.save(newGrade);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedGrade);
     }
 
     @GetMapping
     public ResponseEntity<Page<GradeViewDTO>> findAll(Pageable pageable) {
         Page<GradeViewDTO> grades = gradeService.findAll(pageable).map(grade -> 
-            new GradeViewDTO(grade.getId(),grade.getCode(), grade.getName(), grade.getCurriculumCode()));
+            new GradeViewDTO(
+                grade.getId(),
+                grade.getCode(),
+                grade.getName(),
+                grade.getCurriculumCode(),
+                grade.getCourse() != null ? grade.getCourse().getId() : null  // Incluir courseId no DTO
+            )
+        );
         return ResponseEntity.ok(grades);
     }
 
