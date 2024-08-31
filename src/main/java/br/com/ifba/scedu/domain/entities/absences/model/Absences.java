@@ -1,5 +1,7 @@
 package br.com.ifba.scedu.domain.entities.absences.model;
 
+import br.com.ifba.scedu.domain.entities.disciplina.model.Disciplina;
+import br.com.ifba.scedu.domain.entities.student.model.Student;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,8 +20,9 @@ public class Absences {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column( name = "student", nullable = false )
-    private String student;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
     @Column( name = "date", nullable = false )
     private LocalDate date;
@@ -27,6 +30,7 @@ public class Absences {
     @Column( name = "justified", nullable = false )
     private Boolean justified;
 
-    @Column( name = "subject", nullable = false )
-    private String subject;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "subject_id", nullable = false)
+    private Disciplina subject;
 }
