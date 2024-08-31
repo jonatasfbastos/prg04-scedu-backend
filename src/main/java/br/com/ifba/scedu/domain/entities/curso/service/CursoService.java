@@ -6,6 +6,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.domain.entities.curso.repository.CursoRepository;
+import br.com.ifba.scedu.domain.entities.turma.model.Turma;
+import br.com.ifba.scedu.domain.entities.turma.repository.TurmaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 @Service
 public class CursoService {
  private final CursoRepository cursoRepository;
+ private final TurmaRepository turmaRepository;
  
  public List<Curso> findAll(){
     return cursoRepository.findAll();
@@ -52,4 +55,41 @@ public class CursoService {
       cursoRepository.save(cursoExistente);
       }
    }
+      @Transactional
+    public void addTurmaToCurso(Long cursoId, Turma turma) {
+        Curso curso = cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
+
+        turma.setCurso(curso);
+        curso.getTurmas().add(turma);
+
+        turmaRepository.save(turma);
+        cursoRepository.save(curso);
+    }
+
+    @Transactional
+    public void removeTurmaFromCurso(Long cursoId, Long turmaId) {
+        Curso curso = cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
+
+        Turma turma = turmaRepository.findById(turmaId)
+                .orElseThrow(() -> new EntityNotFoundException("Turma não encontrada"));
+
+        if (turma.getCurso().equals(curso)) {
+            curso.getTurmas().remove(turma);
+            turma.setCurso(null);
+
+            turmaRepository.save(turma);
+            cursoRepository.save(curso);
+        } else {
+            throw new IllegalArgumentException("A turma não pertence ao curso especificado");
+        }
+    }
+
+    public List<Turma> getTurmasByCurso(Long cursoId) {
+        Curso curso = cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
+
+        return List.copyOf(curso.getTurmas());
+    }
 }

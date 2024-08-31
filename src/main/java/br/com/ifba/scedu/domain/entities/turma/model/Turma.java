@@ -1,12 +1,15 @@
 package br.com.ifba.scedu.domain.entities.turma.model;
 
 
+import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,4 +51,8 @@ public class Turma extends PersistenceEntity {
     
     @Column(nullable = false)
     private int numeroMaximoAlunos;
+
+    @ManyToOne
+    @JoinColumn(name = "curso_id", nullable = false)
+    private Curso curso;
 }

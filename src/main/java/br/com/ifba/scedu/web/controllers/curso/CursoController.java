@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ifba.scedu.domain.entities.curso.dto.CursoDto;
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.domain.entities.curso.service.CursoService;
+import br.com.ifba.scedu.domain.entities.turma.DTO.TurmaCreateDto;
+import br.com.ifba.scedu.domain.entities.turma.model.Turma;
 import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -66,6 +68,24 @@ public class CursoController {
         Curso c = mapper.map(cursoUpdate, Curso.class);
       cursoService.update(c, id);
         return ResponseEntity.status(HttpStatus.OK).body("Curso Atualizado");
+    }
+      @PostMapping("/{cursoId}/turmas")
+    public ResponseEntity<Void> addTurmaToCurso(@PathVariable Long cursoId, @RequestBody TurmaCreateDto turmaDto) {
+        Turma turma = mapper.map(turmaDto, Turma.class);
+      cursoService.addTurmaToCurso(cursoId, turma);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/{cursoId}/turmas/{turmaId}")
+    public ResponseEntity<Void> removeTurmaFromCurso(@PathVariable Long cursoId, @PathVariable Long turmaId) {
+        cursoService.removeTurmaFromCurso(cursoId, turmaId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{cursoId}/turmas")
+    public ResponseEntity<List<Turma>> getTurmasByCurso(@PathVariable Long cursoId) {
+        List<Turma> turmas = cursoService.getTurmasByCurso(cursoId);
+        return ResponseEntity.ok(turmas);
     }
 
 }
