@@ -44,7 +44,7 @@ public class EscolaController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping(path = "/findall", produces = "application/json")
+    @GetMapping(path = "/findAll", produces = "application/json")
     public ResponseEntity<?> findAll(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size){
 

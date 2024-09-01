@@ -16,6 +16,8 @@ import java.util.List;
 @Setter
 public class EscolaResponseDto {
 
+    private Long id;
+
     private String nome;
 
     private String inep;
