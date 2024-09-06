@@ -34,7 +34,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/user/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/user/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")  
+                        .requestMatchers(HttpMethod.PUT, "/person/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/person/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/person/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/person").hasRole("ADMIN")
                         .anyRequest().authenticated() // Requer autenticação para TODAS AS OUTRAS REQUISIÇÕES
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o filtro de segurança customizado antes do filtro padrão de autenticação

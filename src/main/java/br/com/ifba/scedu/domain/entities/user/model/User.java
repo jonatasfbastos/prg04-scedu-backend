@@ -26,8 +26,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User extends PersistenceEntity implements UserDetails {
     // Coluna "name" no banco de dados. O atributo "nullable = false" indica que este campo não pode ser nulo.
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     // Coluna "email" no banco de dados, também não pode ser nulo.
     @Column(name = "email", nullable = false)
@@ -47,7 +47,7 @@ public class User extends PersistenceEntity implements UserDetails {
     // Construtor que cria um objeto User a partir de um DTO de requisição.
     // Se o papel do usuário não for fornecido, ele assume o valor padrão de USER.
     public User(User user) {
-        this.name = user.getName();
+        this.username = user.getUsername();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.role = user.getRole() != null ? user.getRole() : UserRoleEnum.USER;
@@ -81,7 +81,7 @@ public class User extends PersistenceEntity implements UserDetails {
     // Retorna o nome do usuário.
     @Override
     public String getUsername() {
-        return name;
+        return username;
     }
 
     // Os métodos abaixo são parte da interface UserDetails.
