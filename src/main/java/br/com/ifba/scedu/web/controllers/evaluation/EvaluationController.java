@@ -28,14 +28,14 @@ public class EvaluationController {
     private final ObjectMapperUtil objectMapperUtil;
 
     @GetMapping(path = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<EvaluationGetResponseDto>>findAll(Pageable pageable){
+    public ResponseEntity<Page<EvaluationGetResponseDto>> findAll(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.evaluationService.findAll(pageable).map(c -> objectMapperUtil.
-                        map(c, EvaluationGetResponseDto.class)));
+                .body(this.evaluationService.findAll(pageable).map(c -> objectMapperUtil
+                        .map(c, EvaluationGetResponseDto.class)));
     }
 
     @GetMapping(path = "/findByName", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?>findByName(){
+    public ResponseEntity<?> findByName() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(objectMapperUtil.mapAll(this.evaluationService.findByName(findByName().toString()),
                         EvaluationGetResponseDto.class));
@@ -43,24 +43,42 @@ public class EvaluationController {
 
     @GetMapping("/avaliacao/{id}")
     public ResponseEntity<EvaluationGetResponseDto> findById(@PathVariable Long id) {
-        Evaluation avaliacao = evaluationService.findById(id);
-            EvaluationGetResponseDto responseDto = objectMapperUtil.map(avaliacao, EvaluationGetResponseDto.class);
-            return ResponseEntity.ok(responseDto);
-        }
-
+        Evaluation evaluation = evaluationService.findById(id);
+        EvaluationGetResponseDto responseDto = objectMapperUtil.map(evaluation, EvaluationGetResponseDto.class);
+        return ResponseEntity.ok(responseDto);
+    }
 
     @PostMapping(path = "/save", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EvaluationGetResponseDto> save(@RequestBody @Valid EvaluationPostRequestDto avaliacaoPostRequestDto) {
+    public ResponseEntity<EvaluationGetResponseDto> save(@RequestBody @Valid EvaluationPostRequestDto evaluationPostRequestDto) {
+
+        Evaluation evaluation = objectMapperUtil.map(evaluationPostRequestDto, Evaluation.class);
+
+
+        Evaluation savedevaluation = evaluationService.save(
+                evaluation,
+                evaluationPostRequestDto.getProfessorId(),
+                evaluationPostRequestDto.getTurmaId(),
+                evaluationPostRequestDto.getDisciplinaId()
+        );
+
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(objectMapperUtil.map(evaluationService.save((objectMapperUtil.map(avaliacaoPostRequestDto, Evaluation.class))),
-                        EvaluationGetResponseDto.class));
+                .body(objectMapperUtil.map(savedevaluation, EvaluationGetResponseDto.class));
     }
 
     @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@RequestBody @Valid EvaluationPostRequestDto avaliacaoPostRequestDto) {
-        Evaluation avaliacao = objectMapperUtil.map(avaliacaoPostRequestDto, Evaluation.class);
-        evaluationService.update(avaliacao);
+    public ResponseEntity<Void> update(@RequestBody @Valid EvaluationPostRequestDto evaluationPostRequestDto) {
+        Evaluation evaluation = objectMapperUtil.map(evaluationPostRequestDto, Evaluation.class);
+
+
+        evaluationService.update(
+                evaluation,
+                evaluationPostRequestDto.getProfessorId(),
+                evaluationPostRequestDto.getTurmaId(),
+                evaluationPostRequestDto.getDisciplinaId()
+        );
+
         return ResponseEntity.noContent().build();
     }
 
@@ -70,3 +88,4 @@ public class EvaluationController {
                 .body(evaluationService.delete(id));
     }
 }
+

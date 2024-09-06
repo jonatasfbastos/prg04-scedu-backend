@@ -12,7 +12,8 @@ public interface EvaluationIService {
     public Page<Evaluation> findAll(Pageable pageable);
     public List<Evaluation> findByName(String name);
     public Evaluation findById(Long id);
-    public Evaluation save(Evaluation avaliacao);
-    public void update(Evaluation avaliacao);
+    public Evaluation save(Evaluation avaliacao, Long professorId, Long turmaId, Long disciplinaId);
+    public void update(Evaluation avaliacao, Long professorId, Long turmaId, Long disciplinaId) ;
     public Map<String, String> delete(Long id);
+
 }
