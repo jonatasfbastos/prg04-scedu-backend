@@ -57,34 +57,34 @@ public class CursoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cursoRetorno);
     }
 
-    @DeleteMapping(path = "/delete/{id}", produces="application/json")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
-       cursoService.delete(id);
+    @DeleteMapping(path = "/delete/{code}", produces="application/json")
+    public ResponseEntity<String> delete(@PathVariable String code){
+       cursoService.delete(code);
        return ResponseEntity.status(HttpStatus.OK).body("Curso deletado com sucesso");
     }
 
-    @PutMapping(path="/update/{id}", consumes="application/json")
-    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody @Valid CursoDto cursoUpdate){
+    @PutMapping(path="/update/{code}", consumes="application/json")
+    public ResponseEntity<String> update(@PathVariable String code, @RequestBody @Valid CursoDto cursoUpdate){
         Curso c = mapper.map(cursoUpdate, Curso.class);
-      cursoService.update(c, id);
+      cursoService.update(c, code);
         return ResponseEntity.status(HttpStatus.OK).body("Curso Atualizado");
     }
-      @PostMapping("/{cursoId}/turmas")
-    public ResponseEntity<Void> addTurmaToCurso(@PathVariable Long cursoId, @RequestBody TurmaCreateDto turmaDto) {
+      @PostMapping("/{cursoCode}/turmas")
+    public ResponseEntity<Void> addTurmaToCurso(@PathVariable String cursoCode, @RequestBody TurmaCreateDto turmaDto) {
         Turma turma = mapper.map(turmaDto, Turma.class);
-      cursoService.addTurmaToCurso(cursoId, turma);
+      cursoService.addTurmaToCurso(cursoCode, turma);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{cursoId}/turmas/{turmaId}")
-    public ResponseEntity<Void> removeTurmaFromCurso(@PathVariable Long cursoId, @PathVariable Long turmaId) {
-        cursoService.removeTurmaFromCurso(cursoId, turmaId);
+    @DeleteMapping("/{cursoCode}/turmas/{turmaId}")
+    public ResponseEntity<Void> removeTurmaFromCurso(@PathVariable String cursoCode, @PathVariable Long turmaId) {
+        cursoService.removeTurmaFromCurso(cursoCode, turmaId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{cursoId}/turmas")
-    public ResponseEntity<List<Turma>> getTurmasByCurso(@PathVariable Long cursoId) {
-        List<Turma> turmas = cursoService.getTurmasByCurso(cursoId);
+    @GetMapping("/{cursoCode}/turmas")
+    public ResponseEntity<List<Turma>> getTurmasByCurso(@PathVariable String cursoCode) {
+        List<Turma> turmas = cursoService.getTurmasByCurso(cursoCode);
         return ResponseEntity.ok(turmas);
     }
 

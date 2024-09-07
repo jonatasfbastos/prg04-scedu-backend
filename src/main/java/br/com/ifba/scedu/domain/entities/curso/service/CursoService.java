@@ -36,14 +36,14 @@ public class CursoService {
   }
  
  @Transactional
- public void delete(Long id){
-    cursoRepository.deleteById(id);
+ public void delete(String code){
+    cursoRepository.deleteByCode(code);
  }
  @Transactional
- public void update(Curso c, Long id){
+ public void update(Curso c, String code){
    // if course exists, i get the return and update the fields
-      if (cursoRepository.existsById(id)) {
-      Curso cursoExistente = cursoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
+      if (cursoRepository.existsByCode(code)) {
+      Curso cursoExistente = cursoRepository.findCursoByCode(code).orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
       
       cursoExistente.setCode(c.getCode());
       cursoExistente.setName(c.getName());
@@ -56,8 +56,8 @@ public class CursoService {
       }
    }
       @Transactional
-    public void addTurmaToCurso(Long cursoId, Turma turma) {
-        Curso curso = cursoRepository.findById(cursoId)
+    public void addTurmaToCurso(String code, Turma turma) {
+        Curso curso = cursoRepository.findCursoByCode(code)
                 .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
 
         turma.setCurso(curso);
@@ -68,8 +68,8 @@ public class CursoService {
     }
 
     @Transactional
-    public void removeTurmaFromCurso(Long cursoId, Long turmaId) {
-        Curso curso = cursoRepository.findById(cursoId)
+    public void removeTurmaFromCurso(String code, Long turmaId) {
+        Curso curso = cursoRepository.findCursoByCode(code)
                 .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
 
         Turma turma = turmaRepository.findById(turmaId)
@@ -86,8 +86,8 @@ public class CursoService {
         }
     }
 
-    public List<Turma> getTurmasByCurso(Long cursoId) {
-        Curso curso = cursoRepository.findById(cursoId)
+    public List<Turma> getTurmasByCurso(String cursoCode) {
+        Curso curso = cursoRepository.findCursoByCode(cursoCode)
                 .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
 
         return List.copyOf(curso.getTurmas());

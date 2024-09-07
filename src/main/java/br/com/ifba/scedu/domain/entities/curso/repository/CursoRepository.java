@@ -10,5 +10,8 @@ import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 @Repository
 public interface CursoRepository extends JpaRepository<Curso, Long>{
   boolean existsByName(String curso);
+  boolean existsByCode(String code);
+  void deleteByCode(String code);
+  Optional<Curso> findCursoByCode(String code);
   Optional<Curso> findCursoByName(String name);
 }
