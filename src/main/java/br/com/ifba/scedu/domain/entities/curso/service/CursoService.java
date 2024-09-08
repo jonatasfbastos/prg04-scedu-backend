@@ -6,6 +6,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.domain.entities.curso.repository.CursoRepository;
+import br.com.ifba.scedu.domain.entities.disciplina.model.Disciplina;
+import br.com.ifba.scedu.domain.entities.disciplina.repository.DisciplinaRepository;
 import br.com.ifba.scedu.domain.entities.turma.model.Turma;
 import br.com.ifba.scedu.domain.entities.turma.repository.TurmaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,6 +19,7 @@ import lombok.AllArgsConstructor;
 public class CursoService {
  private final CursoRepository cursoRepository;
  private final TurmaRepository turmaRepository;
+ private final DisciplinaRepository disciplinaRepository;
  
  public List<Curso> findAll(){
     return cursoRepository.findAll();
@@ -60,11 +63,19 @@ public class CursoService {
         Curso curso = cursoRepository.findCursoByCode(code)
                 .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
 
-        turma.setCurso(curso);
         curso.getTurmas().add(turma);
 
         turmaRepository.save(turma);
         cursoRepository.save(curso);
+    }
+    @Transactional
+    public void addDisciplinaToCurso(String code, Disciplina disciplina){
+        Curso curso = cursoRepository.findCursoByCode(code)
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
+
+                curso.getDisciplinas().add(disciplina);
+                disciplinaRepository.save(disciplina);
+                save(curso);
     }
 
     @Transactional
@@ -85,11 +96,25 @@ public class CursoService {
             throw new IllegalArgumentException("A turma não pertence ao curso especificado");
         }
     }
+    public void removeDisciplinaFromCurso(String codeCurso, Long disciplinaId){
+        Curso curso = cursoRepository.findCursoByCode(codeCurso)
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
+                Disciplina disciplina = disciplinaRepository.findById(disciplinaId).orElseThrow(()-> new EntityNotFoundException("disciplina Não encontrada"));
+                curso.getDisciplinas().remove(disciplina);
+                cursoRepository.save(curso);
+                disciplinaRepository.save(disciplina);
+                
+    }
 
     public List<Turma> getTurmasByCurso(String cursoCode) {
         Curso curso = cursoRepository.findCursoByCode(cursoCode)
                 .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
 
         return List.copyOf(curso.getTurmas());
+    }
+    public List<Disciplina> getDisciplinasByCurso(String cursoCode){
+        Curso curso = cursoRepository.findCursoByCode(cursoCode)
+        .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado"));
+        return List.copyOf(curso.getDisciplinas());
     }
 }

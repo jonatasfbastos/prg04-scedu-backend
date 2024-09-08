@@ -3,10 +3,12 @@ package br.com.ifba.scedu.domain.entities.curso.model;
 import java.util.Set;
 
 import br.com.ifba.scedu.domain.entities.turma.model.Turma;
+import br.com.ifba.scedu.domain.entities.disciplina.model.Disciplina;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -43,5 +45,8 @@ public class Curso extends PersistenceEntity{
 
      @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Turma> turmas;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Disciplina> disciplinas;
     
 }
