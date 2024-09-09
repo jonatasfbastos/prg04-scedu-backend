@@ -38,7 +38,7 @@ public class GradeService {
 
         // Verificar se o curso associado à grade existe
         if (grade.getCourse() != null) {
-            Curso curso = cursoRepository.findById(grade.getCourse().getId())
+            Curso curso = cursoRepository.findCursoByCode(grade.getCourse().getCode())
                     .orElseThrow(() -> new RuntimeException("Curso not found"));
             grade.setCourse(curso);
         }
@@ -50,7 +50,7 @@ public class GradeService {
                 grade.getCode(),
                 grade.getName(),
                 grade.getCurriculumCode(),
-                grade.getCourse() != null ? grade.getCourse().getId() : null
+                grade.getCourse() != null ? grade.getCourse().getCode() : null
         );
     }
 
@@ -73,7 +73,7 @@ public class GradeService {
                 grade.getCode(),
                 grade.getName(),
                 grade.getCurriculumCode(),
-                grade.getCourse() != null ? grade.getCourse().getId() : null
+                grade.getCourse() != null ? grade.getCourse().getCode() : null
         );
     }
 
@@ -87,8 +87,8 @@ public class GradeService {
         currentGrade.setCode(newGrade.code());
 
         // Atualizar curso se necessário
-        if (newGrade.courseId() != null) {
-            Curso curso = cursoRepository.findById(newGrade.courseId())
+        if (newGrade.courseCode() != null) {
+            Curso curso = cursoRepository.findCursoByCode(newGrade.courseCode())
                     .orElseThrow(() -> new RuntimeException("Curso not found"));
             currentGrade.setCourse(curso);
         }
@@ -100,7 +100,7 @@ public class GradeService {
                 currentGrade.getCode(),
                 currentGrade.getName(),
                 currentGrade.getCurriculumCode(),
-                currentGrade.getCourse() != null ? currentGrade.getCourse().getId() : null
+                currentGrade.getCourse() != null ? currentGrade.getCourse().getCode() : null
         );
     }
 

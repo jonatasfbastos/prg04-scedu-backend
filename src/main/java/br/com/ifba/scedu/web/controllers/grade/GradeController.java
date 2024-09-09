@@ -41,9 +41,9 @@ public class GradeController {
         newGrade.setName(gradeDTO.name());
 
         // Verificar se o courseId foi passado e associar o curso
-        if (gradeDTO.courseId() != null) {
+        if (gradeDTO.courseCode() != null) {
             Curso curso = new Curso();
-            curso.setId(gradeDTO.courseId());
+            curso.setCode(gradeDTO.courseCode());
             newGrade.setCourse(curso);
         }
 
@@ -61,7 +61,7 @@ public class GradeController {
                 grade.getCode(),
                 grade.getName(),
                 grade.getCurriculumCode(),
-                grade.getCourse() != null ? grade.getCourse().getId() : null  // Incluir courseId no DTO
+                grade.getCourse() != null ? grade.getCourse().getCode() : null  // Incluir courseId no DTO
             )
         );
         return ResponseEntity.ok(grades);

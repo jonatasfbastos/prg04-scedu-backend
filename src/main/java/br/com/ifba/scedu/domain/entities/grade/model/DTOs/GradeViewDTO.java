@@ -8,6 +8,6 @@ package br.com.ifba.scedu.domain.entities.grade.model.DTOs;
  *
  * @author lara
  */
-public record GradeViewDTO(Long id, String code, String name, String curriculumCode, Long courseId) {
+public record GradeViewDTO(Long id, String code, String name, String curriculumCode, String courseCode) {
 
 }
