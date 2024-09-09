@@ -1,8 +1,13 @@
 package br.com.ifba.scedu.domain.entities.student.service;
 
+import br.com.ifba.scedu.domain.entities.escola.model.Escola;
+import br.com.ifba.scedu.domain.entities.escola.repository.EscolaRepository;
+import br.com.ifba.scedu.domain.entities.gestaoTerceirizado.exception.ResourceNotFoundException;
+import br.com.ifba.scedu.domain.entities.student.exceptions.StudentAlreadyExistsException;
 import br.com.ifba.scedu.domain.entities.student.model.Student;
 import br.com.ifba.scedu.domain.entities.student.repository.StudentRepository;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserEmailAlreadyExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,12 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    // private final EscolaRepository escolaRepository;
 
     @Transactional
     public Student save(Student entity) {
 
         if(studentRepository.existsByStudentCpf(entity.getStudentCpf()))
-            throw new UserEmailAlreadyExistsException("Estudante já matriculado");
+            throw new StudentAlreadyExistsException("Estudante já matriculado");
 
         return this.studentRepository.save(entity);
     }
@@ -87,6 +93,7 @@ public class StudentService {
         existingStudent.setAllergies(newStudent.getAllergies());
         existingStudent.setRelevantMedicalConditions(newStudent.getRelevantMedicalConditions());
         existingStudent.setRegularMedications(newStudent.getRegularMedications());
+        // existingStudent.setSchool(newStudent.getSchool());
     }
 
 

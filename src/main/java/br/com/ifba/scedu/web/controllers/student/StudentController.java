@@ -22,7 +22,7 @@ public class StudentController {
     private final ObjectMapperUtil objectMapperUtil;
 
     @PostMapping
-    public ResponseEntity<StudentDTO> save(@RequestBody @Valid StudentDTO dto) {
+    public ResponseEntity<StudentDTO> save(@Valid @RequestBody StudentDTO dto) {
         Student student = objectMapperUtil.map(dto, Student.class);
         Student savedStudent = this.studentService.save(student);
         StudentDTO responseDTO = objectMapperUtil.map(student, StudentDTO.class);
@@ -31,7 +31,7 @@ public class StudentController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<StudentDTO> update(@PathVariable Long id, @RequestBody @Valid StudentDTO dto) {
+    public ResponseEntity<StudentDTO> update(@PathVariable Long id, @Valid @RequestBody StudentDTO dto) {
         Student student = objectMapperUtil.map(dto, Student.class);
         Student updatedStudent = this.studentService.update(id, student);
         StudentDTO responseDTO = objectMapperUtil.map(student, StudentDTO.class);

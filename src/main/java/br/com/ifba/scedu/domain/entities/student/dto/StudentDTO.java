@@ -1,5 +1,8 @@
 package br.com.ifba.scedu.domain.entities.student.dto;
 
+import br.com.ifba.scedu.domain.entities.absences.dto.AbsencesCreateDto;
+import br.com.ifba.scedu.domain.entities.absences.dto.AbsencesResponseDto;
+import br.com.ifba.scedu.domain.entities.escola.model.Escola;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -143,4 +148,6 @@ public class StudentDTO {
 
     private String regularMedications; // Opcional, sem validação
 
+    // @NotNull(message = "A escola é obrigatória")
+    // private Escola school;
 }

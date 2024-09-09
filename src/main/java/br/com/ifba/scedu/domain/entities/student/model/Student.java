@@ -1,12 +1,16 @@
 package br.com.ifba.scedu.domain.entities.student.model;
 
+import br.com.ifba.scedu.domain.entities.absences.model.Absences;
+import br.com.ifba.scedu.domain.entities.escola.model.Escola;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -141,5 +145,13 @@ public class Student {
 
     @Column(name = "regular_medications", nullable = true)
     private String regularMedications;
+
+    @OneToMany(mappedBy = "student")
+    private List<Absences> absences = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "escola_id")
+    private Escola school;
+
 
 }
