@@ -1,5 +1,7 @@
 package br.com.ifba.scedu.domain.entities.gestaoTerceirizado.model;
 
+import br.com.ifba.scedu.domain.entities.person.model.Person;
+import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -13,7 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GestaoTerceirizado {
+public class GestaoTerceirizado extends PersistenceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,4 +55,8 @@ public class GestaoTerceirizado {
 
     @Column(name = "observations", nullable = false)
     private String observations;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person Person;
 }

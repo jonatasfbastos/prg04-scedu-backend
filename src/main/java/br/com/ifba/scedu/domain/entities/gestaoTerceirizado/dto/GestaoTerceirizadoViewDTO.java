@@ -21,4 +21,5 @@ public class GestaoTerceirizadoViewDTO {
     private String department;
     private boolean status;
     private String observations;
+    private Long Person;
 }
