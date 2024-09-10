@@ -36,7 +36,7 @@ public class TurmaService {
 
         existingTurma.setEscola(updatedTurma.getEscola());
         existingTurma.setNome(updatedTurma.getNome());
-        existingTurma.setSerie(updatedTurma.getSerie());
+        existingTurma.setGrade(updatedTurma.getGrade()); // relacionamento com Grade
         existingTurma.setAnoLetivo(updatedTurma.getAnoLetivo());
         existingTurma.setNumeroSala(updatedTurma.getNumeroSala());
         existingTurma.setTurno(updatedTurma.getTurno());
