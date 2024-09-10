@@ -39,4 +39,5 @@ public class Disciplina extends PersistenceEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "professorId", nullable = false)  // Chave estrangeira para Professor
     private Professor professor;
+
 }
