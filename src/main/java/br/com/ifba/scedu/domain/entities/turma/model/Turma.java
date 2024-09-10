@@ -1,5 +1,5 @@
 package br.com.ifba.scedu.domain.entities.turma.model;
-
+import br.com.ifba.scedu.domain.entities.grade.model.Grade;
 
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
@@ -37,8 +37,9 @@ public class Turma extends PersistenceEntity {
     @Column(nullable = false)
     private String nome;
     
-    @Column(nullable = false)
-    private String serie;
+    @ManyToOne
+    @JoinColumn(name = "grade_id")
+    private Grade grade;
     
     @Column(nullable = false)
     private String anoLetivo;
@@ -56,3 +57,4 @@ public class Turma extends PersistenceEntity {
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
 }
+
