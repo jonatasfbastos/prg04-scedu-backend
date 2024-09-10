@@ -31,7 +31,11 @@ public class UserService {
     // Método para buscar um usuário por ID
     public User findById(Long id) {
         // Busca o usuário e, se não encontrado, lança uma exceção personalizada
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundByIdException("Usuário de Id: " + id + " não foi encontrado!"));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundByIdException("User with id: " + id + " was not found!"));
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User with username: " + username + "was not found!"));
     }
 
     // Método para salvar um novo usuário no banco de dados
@@ -58,11 +62,11 @@ public class UserService {
         if(userRepository.existsByEmail(user.getEmail()) && !existingUser.getEmail().equals(user.getEmail()))
             throw new UserEmailAlreadyExistsException("Email already exists.");
         // Verifica se o novo nome já está registrado por outro usuário
-        else if(userRepository.existsByName(user.getName()) && !existingUser.getName().equals(user.getName()))
-            throw new IllegalArgumentException("Name already exists.");
+        else if(userRepository.existsByUsername(user.getUsername()) && !existingUser.getUsername().equals(user.getUsername()))
+            throw new IllegalArgumentException("Username already exists.");
 
         // Atualiza o nome e o email do usuário
-        existingUser.setName(user.getName());
+        existingUser.setUsername(user.getUsername());
         existingUser.setEmail(user.getEmail());
 
         // Salva as alterações no banco de dados

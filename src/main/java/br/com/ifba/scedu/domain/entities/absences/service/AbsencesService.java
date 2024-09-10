@@ -19,7 +19,7 @@ public class AbsencesService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Absences save(Absences abscence){
-        if(abscence.getStudent().isBlank() || abscence.getSubject().isBlank()){
+        if(abscence.getStudent().getId() == null || abscence.getSubject().getId() == null){
             throw new RuntimeException("Invalid registration credentials (Student or Subject)");
         }
 
@@ -30,7 +30,7 @@ public class AbsencesService {
     @Transactional(propagation = Propagation.REQUIRED)
     public Absences update(Long id, Absences updatedAbsence){
         Absences existingAbsence = this.findById(id);
-        if(updatedAbsence.getStudent().isBlank() || updatedAbsence.getSubject().isBlank()){
+        if(updatedAbsence.getStudent().getId() == null || updatedAbsence.getSubject().getId() == null){
             throw new RuntimeException("Invalid registration credentials (Student or Subject)");
         }
 

@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor  // Gera um construtor com os campos finais obrigatórios (neste caso, mailSender e userRepo)
 public class PasswordResetService {
-    private final JavaMailSender mailSender;  // Injeção de dependência para envio de emails
+    /*private final JavaMailSender mailSender;  // Injeção de dependência para envio de emails
     private final UserRepository userRepo;    // Injeção de dependência para o repositório de usuários
 
     // Método para enviar um token de redefinição de senha para o email fornecido
@@ -73,5 +73,5 @@ public class PasswordResetService {
 
         // Salva o usuário com a nova senha e token removido
         this.userRepo.save(user.get());
-    }
+    }*/
 }

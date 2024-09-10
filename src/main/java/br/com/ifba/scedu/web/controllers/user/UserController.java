@@ -51,7 +51,7 @@ public class UserController {
             User user = userService.findById(id);
             UserResponseDTO userResponseDTO = objectMapperUtil.map(user, UserResponseDTO.class);
             
-            return ResponseEntity.status(HttpStatus.OK).body("User found: " + userResponseDTO.getName());
+            return ResponseEntity.status(HttpStatus.OK).body("User found: " + userResponseDTO.getUsername());
         } catch (UserNotFoundByIdException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found by id: " + id);
         }

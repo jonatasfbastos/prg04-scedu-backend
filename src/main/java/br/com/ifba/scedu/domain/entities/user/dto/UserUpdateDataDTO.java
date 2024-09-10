@@ -8,10 +8,10 @@ import lombok.*;
 @Getter
 @Setter
 public class UserUpdateDataDTO {
-    @NotNull(message = "Campo 'nome' não pode ser nulo!")
-    @NotBlank(message = "Campo 'nome' não pode estar vazio!")
+    @NotNull(message = "Campo 'username' não pode ser nulo!")
+    @NotBlank(message = "Campo 'username' não pode estar vazio!")
     // Campo que armazena o nome de usuario
-    private String name;
+    private String usernname;
 
     @NotNull(message = "Campo 'email' não pode ser nulo!")
     @Email(message = "E-mail inválido!")

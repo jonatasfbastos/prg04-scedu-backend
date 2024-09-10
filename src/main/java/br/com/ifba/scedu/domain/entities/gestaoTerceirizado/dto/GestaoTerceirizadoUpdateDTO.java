@@ -20,4 +20,5 @@ public class GestaoTerceirizadoUpdateDTO {
     private String department;
     private boolean status;
     private String observations;
+    private Long Person;
 }

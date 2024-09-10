@@ -18,7 +18,7 @@ import br.com.ifba.scedu.domain.entities.user.dto.NewPasswordDTO;
 @RequestMapping("/resetPassword") // Define o caminho base para todas as rotas neste controlador.
 public class PasswordResetController {
 
-    @Autowired // Injeta automaticamente uma instância do serviço de redefinição de senha.
+    /*@Autowired // Injeta automaticamente uma instância do serviço de redefinição de senha.
     private PasswordResetService service;
 
     @PostMapping // Mapeia requisições HTTP POST para o caminho "/resetPassword".
@@ -39,5 +39,5 @@ public class PasswordResetController {
 
         // Retorna uma resposta de sucesso indicando que a senha foi atualizada.
         return ResponseEntity.ok("Password updated");
-    }
+    }*/
 }

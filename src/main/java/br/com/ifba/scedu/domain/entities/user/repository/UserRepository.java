@@ -20,11 +20,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Método para encontrar um usuário pelo nome.
     // Também retorna um Optional<User>.
-    Optional<User> findByName(String name);
+    Optional<User> findByUsername(String username);
 
     // Verifica se existe um usuário no banco de dados com o nome especificado.
     // Retorna true se existir, false caso contrário.
-    boolean existsByName(String name);
+    boolean existsByUsername(String username);
 
     // Método para encontrar um usuário pelo token de redefinição de senha.
     // O token é usado em processos de recuperação de senha.

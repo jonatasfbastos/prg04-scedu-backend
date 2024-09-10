@@ -1,5 +1,8 @@
 package br.com.ifba.scedu.domain.entities.student.dto;
 
+import br.com.ifba.scedu.domain.entities.absences.dto.AbsencesCreateDto;
+import br.com.ifba.scedu.domain.entities.absences.dto.AbsencesResponseDto;
+import br.com.ifba.scedu.domain.entities.escola.model.Escola;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,7 +42,7 @@ public class StudentDTO {
     @NotBlank(message = "Órgão expedidor do RG do aluno é obrigatório")
     private String studentRgIssuingAuthority;
 
-    @NotBlank(message = "Data de emissão do RG do aluno é obrigatória")
+    @NotNull(message = "Data de emissão do RG do aluno é obrigatória")
     @PastOrPresent(message = "Data de emissão do RG do aluno deve estar no passado ou presente")
     private Date studentRgIssueDate;
 
@@ -67,7 +72,7 @@ public class StudentDTO {
     @PastOrPresent(message = "Data de emissão do RG do pai deve estar no passado ou presente")
     private Date fatherRgIssueDate;
 
-    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve seguir o padrão XXX.XXX.XXX-XX")
+    //@Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve seguir o padrão XXX.XXX.XXX-XX")
     private String fatherCpf;
 
     private String fatherProfession; // Opcional, sem validação
@@ -80,8 +85,8 @@ public class StudentDTO {
     @NotBlank(message = "O Órgão Expedidor do RG da mãe é Obrigatório")
     private String motherRgIssuingAuthority;
 
-    @Past(message = "Data de emissão do RG da mãe deve estar no passado")
-    @NotBlank(message = "A data de emissão do RG da mãe é obrigatório")
+    @PastOrPresent(message = "Data de emissão do RG da mãe deve estar no passado ou presente")
+    @NotNull(message = "A data de emissão do RG da mãe é obrigatório")
     private Date motherRgIssueDate;
 
     @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve seguir o padrão XXX.XXX.XXX-XX")
@@ -143,4 +148,6 @@ public class StudentDTO {
 
     private String regularMedications; // Opcional, sem validação
 
+    // @NotNull(message = "A escola é obrigatória")
+    // private Escola school;
 }

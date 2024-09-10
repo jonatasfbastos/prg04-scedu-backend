@@ -4,6 +4,10 @@
  */
 package br.com.ifba.scedu.domain.entities.grade.services;
 
+import br.com.ifba.scedu.domain.entities.curso.model.Curso;
+import br.com.ifba.scedu.domain.entities.curso.repository.CursoRepository;
+import br.com.ifba.scedu.domain.entities.grade.exceptions.GradeNotFoundException;
+import br.com.ifba.scedu.domain.entities.grade.exceptions.NullGradeException;
 import br.com.ifba.scedu.domain.entities.grade.model.DTOs.GradeViewDTO;
 import br.com.ifba.scedu.domain.entities.grade.model.Grade;
 import br.com.ifba.scedu.domain.entities.grade.repository.GradeRepository;
@@ -22,56 +26,89 @@ public class GradeService {
 
     @Autowired
     GradeRepository repository;
+    
+    @Autowired
+    CursoRepository cursoRepository;  // Injetar o repositório de Curso
 
     @Transactional
     public GradeViewDTO save(Grade grade) {
         if (grade == null) {
-            throw new RuntimeException("Grade object cannot be null");
+            throw new NullGradeException("Grade object cannot be null");
+        }
+
+        // Verificar se o curso associado à grade existe
+        if (grade.getCourse() != null) {
+            Curso curso = cursoRepository.findCursoByCode(grade.getCourse().getCode())
+                    .orElseThrow(() -> new RuntimeException("Curso not found"));
+            grade.setCourse(curso);
         }
 
         repository.save(grade);
 
-        return new GradeViewDTO(grade.getId(), grade.getCode(), grade.getName(), grade.getCurriculumCode());
+        return new GradeViewDTO(
+                grade.getId(),
+                grade.getCode(),
+                grade.getName(),
+                grade.getCurriculumCode(),
+                grade.getCourse() != null ? grade.getCourse().getCode() : null
+        );
     }
 
     @Transactional(readOnly = true)
     public Page<Grade> findAll(Pageable pageable) {
         Page<Grade> grades = this.repository.findAll(pageable);
         if (grades.isEmpty()) {
-            throw new RuntimeException("No grades found");
+            throw new GradeNotFoundException("No grades found");
         }
         return grades;
     }
 
     @Transactional(readOnly = true)
     public GradeViewDTO findById(Long id) {
-
         var grade = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No records found for this ID"));
+                .orElseThrow(() -> new GradeNotFoundException("No records found for this ID"));
 
-        return new GradeViewDTO(grade.getId(),grade.getCode(), grade.getName(), grade.getCurriculumCode());
+        return new GradeViewDTO(
+                grade.getId(),
+                grade.getCode(),
+                grade.getName(),
+                grade.getCurriculumCode(),
+                grade.getCourse() != null ? grade.getCourse().getCode() : null
+        );
     }
 
     @Transactional
     public GradeViewDTO update(GradeViewDTO newGrade, Long id) {
-        var currentGrade = repository.findById(id).orElseThrow(() -> new RuntimeException("No records found for this ID"));
+        var currentGrade = repository.findById(id)
+                .orElseThrow(() -> new GradeNotFoundException("No records found for this ID"));
         
-       currentGrade.setName(newGrade.name());
-       currentGrade.setCurriculumCode(newGrade.curriculumCode());
-       currentGrade.setCode(newGrade.code());
-       
-       this.save(currentGrade);
-       
-       return new GradeViewDTO(currentGrade.getId(), currentGrade.getCode(), currentGrade.getName(), currentGrade.getCurriculumCode());
-        
+        currentGrade.setName(newGrade.name());
+        currentGrade.setCurriculumCode(newGrade.curriculumCode());
+        currentGrade.setCode(newGrade.code());
+
+        // Atualizar curso se necessário
+        if (newGrade.courseCode() != null) {
+            Curso curso = cursoRepository.findCursoByCode(newGrade.courseCode())
+                    .orElseThrow(() -> new RuntimeException("Curso not found"));
+            currentGrade.setCourse(curso);
+        }
+
+        repository.save(currentGrade);
+
+        return new GradeViewDTO(
+                currentGrade.getId(),
+                currentGrade.getCode(),
+                currentGrade.getName(),
+                currentGrade.getCurriculumCode(),
+                currentGrade.getCourse() != null ? currentGrade.getCourse().getCode() : null
+        );
     }
 
-
+    @Transactional
     public void delete(Long id) {
-        
         Grade entity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No records found for this ID"));
+                .orElseThrow(() -> new GradeNotFoundException("No records found for this ID"));
         repository.delete(entity);
     }
-
 }
+
