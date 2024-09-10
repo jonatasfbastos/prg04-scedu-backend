@@ -1,6 +1,7 @@
 package br.com.ifba.scedu.domain.entities.disciplina.model;
 
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
+import br.com.ifba.scedu.domain.entities.professor.model.Professor;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,12 @@ public class Disciplina extends PersistenceEntity implements Serializable {
 
     @Column(nullable = false)
     private String baseCurricular;
+
     @ManyToOne
     @JoinColumn(name = "cursoId", nullable = false)
     private Curso curso;
+
+    @ManyToOne
+    @JoinColumn(name = "professorId", nullable = false)  // Chave estrangeira para Professor
+    private Professor professor;
 }

@@ -1,5 +1,6 @@
 package br.com.ifba.scedu.domain.entities.professor.model;
 
+import br.com.ifba.scedu.domain.entities.disciplina.model.Disciplina;
 import br.com.ifba.scedu.domain.entities.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,5 +36,8 @@ public class Professor extends User {
      */
     @Column(name = "carga_horaria")
     private Integer cargaHoraria;
+
+    @OneToMany(mappedBy = "professor")
+    private Disciplina disciplina;
 
 }

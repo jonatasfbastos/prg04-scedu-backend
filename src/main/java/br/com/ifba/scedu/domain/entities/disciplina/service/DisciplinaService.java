@@ -40,6 +40,7 @@ public class DisciplinaService {
 
     @Transactional
     public Disciplina update(Disciplina disciplina) {
+
         return disciplinaRepository.save(disciplina);
     }
 
