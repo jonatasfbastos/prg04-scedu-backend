@@ -25,6 +25,7 @@ public class Professor extends User {
     @Column(name = "siape", unique = true)
     private String siape;
 
+
     /**
      * Departamento ao qual o professor está vinculado.
      */
@@ -37,7 +38,9 @@ public class Professor extends User {
     @Column(name = "carga_horaria")
     private Integer cargaHoraria;
 
-    @OneToMany(mappedBy = "professor")
+    //@OneToMany(mappedBy = "professor") estava dando erro nessa linha então deixei comentando para poder testar minha parte
+    @ManyToOne
     private Disciplina disciplina;
+
 
 }
