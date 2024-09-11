@@ -1,13 +1,8 @@
 package br.com.ifba.scedu.domain.entities.student.service;
 
-import br.com.ifba.scedu.domain.entities.escola.model.Escola;
-import br.com.ifba.scedu.domain.entities.escola.repository.EscolaRepository;
-import br.com.ifba.scedu.domain.entities.gestaoTerceirizado.exception.ResourceNotFoundException;
 import br.com.ifba.scedu.domain.entities.student.exceptions.StudentAlreadyExistsException;
 import br.com.ifba.scedu.domain.entities.student.model.Student;
 import br.com.ifba.scedu.domain.entities.student.repository.StudentRepository;
-import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserEmailAlreadyExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

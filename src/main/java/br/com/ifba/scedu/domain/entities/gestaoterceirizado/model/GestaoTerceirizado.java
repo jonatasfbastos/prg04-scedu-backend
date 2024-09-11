@@ -1,7 +1,6 @@
-package br.com.ifba.scedu.domain.entities.gestaoTerceirizado.model;
+package br.com.ifba.scedu.domain.entities.gestaoterceirizado.model;
 
 import br.com.ifba.scedu.domain.entities.person.model.Person;
-import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -9,35 +8,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Entity
 @Table(name = "gestaoTerceirizado")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GestaoTerceirizado extends PersistenceEntity {
+public class GestaoTerceirizado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person Person;
 
-    @Column(name = "cpf", nullable = false)
-    private String cpf;
-
-    @Column(name = "rg", nullable = false)
-    private String rg;
-
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone_terceirizado", nullable = false)
     private String phone;
 
-    @Column(name = "address", nullable = false)
-    private String address;
-
-    @Column(name = "email", nullable = false)
+    @Column(name = "email_terceirizado", nullable = false)
     @Email
     private String email;
 
@@ -56,7 +49,8 @@ public class GestaoTerceirizado extends PersistenceEntity {
     @Column(name = "observations", nullable = false)
     private String observations;
 
-    @ManyToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person Person;
+
+    public Optional<GestaoTerceirizado> getTerceirizadoById(Long id) {
+        return this.getTerceirizadoById(id);
+    }
 }
