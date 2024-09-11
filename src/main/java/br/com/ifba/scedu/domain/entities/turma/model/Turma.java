@@ -1,5 +1,5 @@
 package br.com.ifba.scedu.domain.entities.turma.model;
-import br.com.ifba.scedu.domain.entities.grade.model.Grade;
+import br.com.ifba.scedu.grade.entities.Grade;
 
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;

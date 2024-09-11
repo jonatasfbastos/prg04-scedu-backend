@@ -1,6 +1,6 @@
 package br.com.ifba.scedu.domain.entities.escola.model;
 
-import br.com.ifba.scedu.domain.entities.grade.model.Grade;
+import br.com.ifba.scedu.grade.entities.Grade;
 import br.com.ifba.scedu.domain.entities.student.model.Student;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.*;

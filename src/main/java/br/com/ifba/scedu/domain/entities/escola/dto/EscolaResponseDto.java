@@ -1,7 +1,7 @@
 package br.com.ifba.scedu.domain.entities.escola.dto;
 
 
-import br.com.ifba.scedu.domain.entities.grade.model.DTOs.GradeViewDTO;
+import br.com.ifba.scedu.grade.entities.DTOs.GradeViewDTO;
 import br.com.ifba.scedu.domain.entities.student.dto.StudentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
