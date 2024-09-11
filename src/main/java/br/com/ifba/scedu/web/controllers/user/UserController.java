@@ -19,7 +19,6 @@ import br.com.ifba.scedu.domain.entities.user.dto.LoginResponseDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserRequestDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserResponseDTO;
 import br.com.ifba.scedu.domain.entities.user.dto.UserUpdateDataDTO;
-import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserNotFoundByIdException;
 import br.com.ifba.scedu.domain.entities.user.model.User;
 import br.com.ifba.scedu.domain.entities.user.service.UserService;
 import br.com.ifba.scedu.infrastructure.config.TokenService;
@@ -47,23 +46,17 @@ public class UserController {
 
     @GetMapping("/{id}") // Mapeia requisições HTTP GET para o caminho "/user/{id}"
     public ResponseEntity<String> findById(@PathVariable Long id) {
-        try {
-            User user = userService.findById(id);
-            UserResponseDTO userResponseDTO = objectMapperUtil.map(user, UserResponseDTO.class);
+        User user = userService.findById(id);
+        UserResponseDTO userResponseDTO = objectMapperUtil.map(user, UserResponseDTO.class);
             
-            return ResponseEntity.status(HttpStatus.OK).body("User found: " + userResponseDTO.getUsername());
-        } catch (UserNotFoundByIdException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found by id: " + id);
-        }
+        return ResponseEntity.status(HttpStatus.OK).body("User found: " + userResponseDTO.getUsername());
     }
 
     // Faz a validação de login do usuário no próprio Controller
     @PostMapping("/auth/login") // Mapeia requisições HTTP POST para "/user/auth/login"
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        
         var auth = this.authenticationManager.authenticate(usernamePassword);
-
         var token = tokenService.generateToken((User) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));

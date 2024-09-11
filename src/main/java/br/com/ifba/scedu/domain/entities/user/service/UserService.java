@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.NoUsersToListException;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserEmailAlreadyExistsException;
 import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserNotFoundByIdException;
+import br.com.ifba.scedu.domain.entities.user.exceptions.other.UserNotFoundByUsernameException;
 import br.com.ifba.scedu.domain.entities.user.model.User;
 import br.com.ifba.scedu.domain.entities.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User with username: " + username + "was not found!"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundByUsernameException("User with username: " + username + "was not found!"));
     }
 
     // Método para salvar um novo usuário no banco de dados
@@ -56,7 +57,7 @@ public class UserService {
     @Transactional
     public User update(Long id, User user) {
         // Busca o usuário pelo ID ou lança uma exceção se não for encontrado
-        User existingUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundByIdException("User not found."));
+        User existingUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundByIdException("User not found with id: " + id));
 
         // Verifica se o novo email já está registrado por outro usuário
         if(userRepository.existsByEmail(user.getEmail()) && !existingUser.getEmail().equals(user.getEmail()))
@@ -78,7 +79,7 @@ public class UserService {
     public void delete(Long id) {
         // Verifica se o usuário existe no banco de dados
         if(!userRepository.existsById(id))
-            throw new UserNotFoundByIdException("User not found.");
+            throw new UserNotFoundByIdException("User not found with id: " + id);
 
         // Deleta o usuário do banco de dados
         userRepository.deleteById(id);
