@@ -26,7 +26,7 @@ public class GestaoTerceirizado {
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person Person;
+    private Person person;
 
     @Column(name = "phone_terceirizado", nullable = false)
     private String phone;

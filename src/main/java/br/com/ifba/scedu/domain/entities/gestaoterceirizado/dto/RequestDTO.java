@@ -14,11 +14,11 @@ public class RequestDTO {
     private String phone;
 
     @NotNull(message = "Person ID is required.")
-    private Long IdPerson;
+    private Long IdPerson; //id de pessoa associada
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Email should be valid.")
-    private String email;
+    private String email; //para o emal do tercerisado caso a empresa tenha um email de trabalho
 
     @NotBlank(message = "Position is required.")
     private String position;

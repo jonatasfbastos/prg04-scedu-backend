@@ -1,4 +1,4 @@
-package br.com.ifba.scedu.web.controllers.gestaoTercerizado;
+package br.com.ifba.scedu.domain.entities.gestaoterceirizado.controller;
 
 import br.com.ifba.scedu.domain.entities.gestaoterceirizado.dto.RequestDTO;
 import br.com.ifba.scedu.domain.entities.gestaoterceirizado.dto.ResponseDTO;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/gestaoTerceirizados")
-public class GestaoTerceirizadoController {
+public class GestaoTerceirizadoControllers {
 
     @Autowired
     private GestaoTerceirizadoService terceirizadoService;
@@ -49,12 +49,13 @@ public class GestaoTerceirizadoController {
     }
 
     //buscar todos
-    @GetMapping
-    public List<ResponseDTO> findAll() {
+    @GetMapping("/findAll")
+    public ResponseEntity<List<ResponseDTO>> getAll() {
         List<GestaoTerceirizado> terceirizados = terceirizadoService.findAll();
-        return terceirizados.stream()
+        List<ResponseDTO> viewDTOs = terceirizados.stream()
                 .map(this::convertToViewDTO)
                 .collect(Collectors.toList());
+        return new ResponseEntity<>(viewDTOs, HttpStatus.OK);
     }
 
     //buscar por id
@@ -66,12 +67,13 @@ public class GestaoTerceirizadoController {
 
     // Método de conversão no Controller DTO
     private ResponseDTO convertToViewDTO(GestaoTerceirizado terceirizado) {
-        //transformação de dados enter service e controller
         ResponseDTO dto = new ResponseDTO();
         dto.setId(terceirizado.getId());
         dto.setIdPerson(terceirizado.getPerson().getId());
-        dto.setEmail(terceirizado.getEmail());
+        dto.setName(terceirizado.getPerson().getName());
+        dto.setCpf(terceirizado.getPerson().getCpf());
         dto.setPhone(terceirizado.getPhone());
+        dto.setEmail(terceirizado.getEmail());
         dto.setPosition(terceirizado.getPosition());
         dto.setEnterprise(terceirizado.getEnterprise());
         dto.setDepartment(terceirizado.getDepartment());
@@ -79,6 +81,5 @@ public class GestaoTerceirizadoController {
         dto.setObservations(terceirizado.getObservations());
         return dto;
     }
-
-
 }
+
