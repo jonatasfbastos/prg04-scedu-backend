@@ -6,8 +6,8 @@ package br.com.ifba.scedu.grade.service;
 
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.domain.entities.curso.repository.CursoRepository;
-import br.com.ifba.scedu.domain.entities.grade.exceptions.GradeNotFoundException;
-import br.com.ifba.scedu.domain.entities.grade.exceptions.NullGradeException;
+import br.com.ifba.scedu.grade.exceptions.GradeNotFoundException;
+import br.com.ifba.scedu.grade.exceptions.NullGradeException;
 import br.com.ifba.scedu.grade.entities.DTOs.GradeViewDTO;
 import br.com.ifba.scedu.grade.entities.Grade; // Note que 'Grade' é a entidade que estamos chamando de 'série'
 import br.com.ifba.scedu.grade.repository.GradeRepository;
