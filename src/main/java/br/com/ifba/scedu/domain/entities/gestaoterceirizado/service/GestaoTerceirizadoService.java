@@ -4,7 +4,8 @@ import br.com.ifba.scedu.domain.entities.gestaoterceirizado.dto.RequestDTO;
 import br.com.ifba.scedu.domain.entities.gestaoterceirizado.exception.ResourceNotFoundException;
 import br.com.ifba.scedu.domain.entities.gestaoterceirizado.model.GestaoTerceirizado;
 import br.com.ifba.scedu.domain.entities.gestaoterceirizado.repository.GestaoTerceirizadoRepository;
-import br.com.ifba.scedu.domain.entities.person.repository.PersonRepository;
+import br.com.ifba.scedu.person.repository.PersonRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

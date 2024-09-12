@@ -1,6 +1,5 @@
 package br.com.ifba.scedu.domain.entities.gestaoterceirizado.model;
 
-import br.com.ifba.scedu.domain.entities.person.model.Person;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -9,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Optional;
+
+import br.com.ifba.scedu.person.model.Person;
 
 @Entity
 @Table(name = "gestaoTerceirizado")

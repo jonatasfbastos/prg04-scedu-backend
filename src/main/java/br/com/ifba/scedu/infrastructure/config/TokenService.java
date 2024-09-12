@@ -12,7 +12,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-import br.com.ifba.scedu.domain.entities.user.model.User;
+import br.com.ifba.scedu.user.model.User;
 
 @Service
 public class TokenService {

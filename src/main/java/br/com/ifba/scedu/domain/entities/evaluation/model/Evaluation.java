@@ -2,9 +2,9 @@ package br.com.ifba.scedu.domain.entities.evaluation.model;
 
 
 import br.com.ifba.scedu.domain.entities.disciplina.model.Disciplina;
-import br.com.ifba.scedu.domain.entities.professor.model.Professor;
 import br.com.ifba.scedu.domain.entities.turma.model.Turma;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
+import br.com.ifba.scedu.professor.model.Professor;
 import jakarta.persistence.*;
 import lombok.*;
 import java.io.Serializable;

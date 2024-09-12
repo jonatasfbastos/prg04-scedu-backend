@@ -4,7 +4,6 @@ package br.com.ifba.scedu.domain.entities.evaluation.service;
 
 import br.com.ifba.scedu.domain.entities.disciplina.model.Disciplina;
 import br.com.ifba.scedu.domain.entities.evaluation.model.Evaluation;
-import br.com.ifba.scedu.domain.entities.professor.model.Professor;
 import br.com.ifba.scedu.domain.entities.turma.model.Turma;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,8 +15,9 @@ import java.util.List;
 import java.util.Map;
 import br.com.ifba.scedu.domain.entities.evaluation.repository.EvaluationRepository;
 import br.com.ifba.scedu.domain.entities.disciplina.repository.DisciplinaRepository;
-import br.com.ifba.scedu.domain.entities.professor.repository.ProfessorRepository;
 import br.com.ifba.scedu.domain.entities.turma.repository.TurmaRepository;
+import br.com.ifba.scedu.professor.model.Professor;
+import br.com.ifba.scedu.professor.repository.ProfessorRepository;
 
 @Service
 @RequiredArgsConstructor

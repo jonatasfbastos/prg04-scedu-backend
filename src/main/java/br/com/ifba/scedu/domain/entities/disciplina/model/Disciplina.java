@@ -1,8 +1,8 @@
 package br.com.ifba.scedu.domain.entities.disciplina.model;
 
 import br.com.ifba.scedu.domain.entities.curso.model.Curso;
-import br.com.ifba.scedu.domain.entities.professor.model.Professor;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
+import br.com.ifba.scedu.professor.model.Professor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
