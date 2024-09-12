@@ -4,7 +4,7 @@
  */
 package br.com.ifba.scedu.grade.service;
 
-import br.com.ifba.scedu.domain.entities.curso.model.Curso;
+import br.com.ifba.scedu.domain.entities.curso.entity.Curso;
 import br.com.ifba.scedu.domain.entities.curso.repository.CursoRepository;
 import br.com.ifba.scedu.grade.exceptions.GradeNotFoundException;
 import br.com.ifba.scedu.grade.exceptions.NullGradeException;

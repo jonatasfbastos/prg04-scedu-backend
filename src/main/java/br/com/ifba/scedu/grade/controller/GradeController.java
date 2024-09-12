@@ -4,8 +4,8 @@
  */
 package br.com.ifba.scedu.grade.controller;
 
-import br.com.ifba.scedu.domain.entities.curso.model.Curso;
 import br.com.ifba.scedu.grade.entities.DTOs.GradeViewDTO;
+import br.com.ifba.scedu.domain.entities.curso.entity.Curso;
 import br.com.ifba.scedu.grade.entities.Grade; // Note que 'Grade' é a entidade que estamos chamando de 'série'
 import br.com.ifba.scedu.grade.service.GradeService;
 import br.com.ifba.scedu.infrastructure.util.ObjectMapperUtil;
