@@ -1,4 +1,4 @@
-package br.com.ifba.scedu.web.controllers.absences;
+package br.com.ifba.scedu.domain.entities.absences.controller;
 
 import br.com.ifba.scedu.domain.entities.absences.dto.AbsencesCreateDto;
 import br.com.ifba.scedu.domain.entities.absences.dto.AbsencesResponseDto;
