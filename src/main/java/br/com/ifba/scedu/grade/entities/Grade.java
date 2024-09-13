@@ -4,7 +4,7 @@
  */
 package br.com.ifba.scedu.grade.entities;
 
-import br.com.ifba.scedu.domain.entities.curso.model.Curso;
+import br.com.ifba.scedu.domain.entities.curso.entity.Curso;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

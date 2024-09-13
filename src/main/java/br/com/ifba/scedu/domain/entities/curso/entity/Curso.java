@@ -1,14 +1,13 @@
-package br.com.ifba.scedu.domain.entities.curso.model;
+package br.com.ifba.scedu.domain.entities.curso.entity;
 
-import java.util.Set;
 
-import br.com.ifba.scedu.domain.entities.turma.model.Turma;
-import br.com.ifba.scedu.domain.entities.disciplina.model.Disciplina;
+import java.io.Serializable;
+import java.util.List;
+
+import br.com.ifba.scedu.grade.entities.Grade;
 import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -24,7 +23,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Curso extends PersistenceEntity{
+public class Curso extends PersistenceEntity implements Serializable{
     @Column(name = "codigo")
     private String code;
 
@@ -43,10 +42,7 @@ public class Curso extends PersistenceEntity{
     @Column(name="Modalidade")
     private String mode;
 
-     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Turma> turmas;
+    @OneToMany// relação um para muitos com serie
+    private List<Grade> grade;
 
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Disciplina> disciplinas;
-    
 }
