@@ -1,6 +1,6 @@
-package br.com.ifba.scedu.domain.entities.gestaoterceirizado.repository;
+package br.com.ifba.scedu.gestaoterceirizado.repository;
 
-import br.com.ifba.scedu.domain.entities.gestaoterceirizado.model.GestaoTerceirizado;
+import br.com.ifba.scedu.gestaoterceirizado.entities.GestaoTerceirizado;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
