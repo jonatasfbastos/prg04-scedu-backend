@@ -10,9 +10,7 @@ import lombok.Setter;
 @Setter
 public class RequestDTO {
 
-    // O número de telefone do terceirizado
-    @NotBlank(message = "Phone is required.") // Validação: o campo não pode ser vazio ou nulo
-    private String phone;
+
 
     // O ID da pessoa associada ao terceirizado
     @NotNull(message = "Person ID is required.") // Validação: o campo não pode ser nulo

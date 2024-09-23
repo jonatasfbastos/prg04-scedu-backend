@@ -1,5 +1,6 @@
 package br.com.ifba.scedu.gestaoterceirizado.entities;
 
+import br.com.ifba.scedu.infrastructure.persistenceentity.PersistenceEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -17,19 +18,11 @@ import br.com.ifba.scedu.person.model.Person;
 @Setter // Lombok gera automaticamente os métodos setters para todos os campos
 @AllArgsConstructor // Lombok gera automaticamente um construtor com todos os atributos como parâmetros
 @NoArgsConstructor  // Lombok gera automaticamente um construtor vazio
-public class GestaoTerceirizado {
-
-    @Id // Define que o campo `id` é a chave primária da tabela
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Define que o valor do `id` será gerado automaticamente
-    @Column(name = "id", updatable = false, nullable = false) // Especifica a coluna `id` no banco de dados, que não pode ser alterada nem nula
-    private Long id;
+public class GestaoTerceirizado extends PersistenceEntity {
 
     @ManyToOne // Define uma relação Many-to-One (muitos terceirizados podem estar associados a uma única pessoa)
     @JoinColumn(name = "person_id", referencedColumnName = "id") // Especifica a chave estrangeira que faz referência à coluna `id` na tabela `Person`
     private Person person; // Relaciona o terceirizado a uma pessoa
-
-    @Column(name = "phone_terceirizado", nullable = false) // Especifica que o campo `phone` é obrigatório no banco de dados
-    private String phone; // Armazena o número de telefone do terceirizado
 
     @Column(name = "email_terceirizado", nullable = false) // Especifica que o campo `email` é obrigatório no banco de dados
     @Email // Validação para garantir que o valor armazenado seja um e-mail válido

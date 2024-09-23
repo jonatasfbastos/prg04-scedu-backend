@@ -1,5 +1,6 @@
 package br.com.ifba.scedu.gestaoterceirizado.entities.dtos;
 
+import br.com.ifba.scedu.gestaoterceirizado.entities.GestaoTerceirizado;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,38 +22,6 @@ public class ResponseDTO {
     // ID da pessoa associada ao terceirizado
     @NotNull(message = "Person ID is required.") // Validação: o campo não pode ser nulo
     private Long IdPerson;
-
-    // Número de telefone do terceirizado
-    @NotBlank(message = "Phone is required.") // Validação: o campo não pode ser vazio ou nulo
-    private String phone;
-
-    // Nome da pessoa associada ao terceirizado
-    @NotBlank(message = "Name is required.") // Validação: o campo não pode ser vazio ou nulo
-    private String name;
-
-    // CPF da pessoa associada ao terceirizado
-    @NotBlank(message = "CPF is required.") // Validação: o campo não pode ser vazio ou nulo
-    private String cpf;
-
-    // Idade da pessoa associada ao terceirizado
-    @NotBlank(message = "Age is required.") // Validação: o campo não pode ser vazio ou nulo
-    private Integer age;
-
-    // Rua onde a pessoa associada ao terceirizado reside
-    @NotBlank(message = "Street is required.") // Validação: o campo não pode ser vazio ou nulo
-    private String street;
-
-    // Bairro ou área onde a pessoa associada ao terceirizado reside
-    @NotBlank(message = "Area is required.") // Validação: o campo não pode ser vazio ou nulo
-    private String area;
-
-    // Cidade onde a pessoa associada ao terceirizado reside
-    @NotBlank(message = "City is required.") // Validação: o campo não pode ser vazio ou nulo
-    private String city;
-
-    // Estado onde a pessoa associada ao terceirizado reside
-    @NotBlank(message = "State is required.") // Validação: o campo não pode ser vazio ou nulo
-    private String state;
 
     // Email da pessoa ou email de trabalho do terceirizado
     @NotBlank(message = "Email is required.") // Validação: o campo não pode ser vazio ou nulo
